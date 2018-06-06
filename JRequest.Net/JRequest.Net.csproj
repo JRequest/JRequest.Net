@@ -2,6 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <NeutralLanguage>en-CA</NeutralLanguage>
+    <Version>1.0.1-alpha</Version>
+    <Authors>Michael Jimma</Authors>
+    <Description>JRequest.NET is a powerful library which allows applications to call web APIs using JSON.</Description>
+    <Copyright>Michael Jimma</Copyright>
+    <PackageLicenseUrl>https://github.com/JRequest/JRequest.Net/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/JRequest/JRequest.Net</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/JRequest/JRequest.Net</RepositoryUrl>
+    <PackageTags>Web API, JSON Request,HTTP,FTP,JSON,</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
