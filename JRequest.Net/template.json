@@ -1,0 +1,40 @@
+﻿{
+  "protocol": "http",
+  "name": "Weather Forecast",
+  "requests": [
+    {
+      "requesttype": "output",
+      "key": "openweathermap",
+      "url": "http://api.openweathermap.org/data/2.5/weather?q={{currentlocation.body.city}},{{currentlocation.body.countryCode}}&appid=de92ba40803f76968ec6c2d7668b377a",
+      "method": "GET",
+      "contenttype": "application/json",
+      "authorization": {
+      },
+      "parameters": [
+      ],
+      "headers": [
+      ],
+      "configuration": {
+        "output": {
+          "type": "json"
+        }
+      }
+    },
+    {
+      "requesttype": "input",
+      "key": "currentlocation",
+      "url": "http://ip-api.com/json",
+      "method": "GET",
+      "contenttype": "application/json",
+      "authorization": {
+      },
+      "parameters": [
+      ],
+      "headers": [
+      ],
+      "configuration": {
+      },
+      "ordinal": 1
+    }
+  ]
+}
