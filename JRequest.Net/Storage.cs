@@ -9,19 +9,19 @@ namespace JRequest.Net
 {
     internal class Storage
     {
-        public static List<Dictionary<string, JResponse>> globalStorage = new List<Dictionary<string, JResponse>>();
+        public static List<Dictionary<string, Response>> globalStorage = new List<Dictionary<string, Response>>();
 
-        public static void Store(Dictionary<string, JResponse> response)
+        public static void Store(Dictionary<string, Response> response)
         {
             globalStorage.Add(response);
         }
-        public static bool Store(string key, JResponse response)
+        public static bool Store(string key, Response response)
         {
             try
             {
                 if (Utility.HasValue(key) && Utility.HasValue(response))
                 {
-                    Dictionary<string, JResponse> keyVal = new Dictionary<string, JResponse>();
+                    Dictionary<string, Response> keyVal = new Dictionary<string, Response>();
                     keyVal.Add(key, response);
                     Store(keyVal);
                     return true;
@@ -51,7 +51,7 @@ namespace JRequest.Net
                         string source = path[1];
                         path.RemoveRange(0, 2);
 
-                        JResponse response = GetRequestResponse(requestKey);
+                        Response response = GetRequestResponse(requestKey);
 
                         if (!Utility.HasValue(response))
                             throw new JRequestException($"The specified request has no response data.");
@@ -80,6 +80,7 @@ namespace JRequest.Net
                                 {
                                     jsonObject = JsonConvert.DeserializeObject<dynamic>(response.Content);
                                 }
+
                                 SearchJson(path, jsonObject, searchResults);
                                 break;
                             default:
@@ -88,7 +89,7 @@ namespace JRequest.Net
                     }
 
                     if (searchResults.Count == 0)
-                        throw new JRequestException($"Match not found.");
+                        throw new JRequestException($"{dataPath} yields no result.");
 
                 }
 
@@ -101,14 +102,14 @@ namespace JRequest.Net
             }
         }
 
-        public static JResponse GetRequestResponse(string requestKey)
+        public static Response GetRequestResponse(string requestKey)
         {
-            JResponse response = null;
+            Response response = null;
             try
             {
                 globalStorage.ForEach(items =>
                 {
-                    foreach (KeyValuePair<string, JResponse> item in items)
+                    foreach (KeyValuePair<string, Response> item in items)
                     {
                         if (item.Key.ToLower() == requestKey.ToLower())
                         {
@@ -129,7 +130,7 @@ namespace JRequest.Net
             return response;
         }
 
-        public static void FindHeaderValue(JResponse response, string headerKey, List<string> searchResults)
+        public static void FindHeaderValue(Response response, string headerKey, List<string> searchResults)
         {
             try
             {
@@ -148,7 +149,7 @@ namespace JRequest.Net
             }
         }
 
-        public static void FindCookieValue(JResponse response, string cookieKey, List<string> searchResults)
+        public static void FindCookieValue(Response response, string cookieKey, List<string> searchResults)
         {
             try
             {

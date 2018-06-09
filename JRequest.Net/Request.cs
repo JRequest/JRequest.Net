@@ -21,5 +21,6 @@ namespace JRequest.Net
         public int Ordinal { get; set; }
         public Configuration Configuration { get; set; }
         public Authorization Authorization { get; set; }
+        public Response Response { get; set; }
     }
 }

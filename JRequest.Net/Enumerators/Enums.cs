@@ -7,6 +7,7 @@ namespace JRequest.Net.Enumerators
     public enum Protocol
     {
         http,
+        https,
         ftp
     }
     public enum RequestType

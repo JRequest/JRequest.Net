@@ -13,26 +13,20 @@ namespace JRequest.Net
     {
         public string Type { get; set; }
 
-        internal static void ToJson(Dictionary<string, JResponse> jResponseDictionary)
+        internal static void ToJson(Response response)
         {
-            foreach (KeyValuePair<string, JResponse> response in jResponseDictionary)
+            using (var stream = new MemoryStream(Encoding.ASCII.GetBytes(response.Content)))
             {
-                using (var stream = new MemoryStream(Encoding.ASCII.GetBytes(response.Value.Content)))
-                {
-                    response.Value.Content = JsonConvert.SerializeObject(response.Value.Content);
-                }
+                response.Content = JsonConvert.SerializeObject(response.Content);
             }
         }
 
-        internal static void ToXml(Dictionary<string, JResponse> jResponseDictionary)
+        internal static void ToXml(Response response)
         {
-            foreach (KeyValuePair<string, JResponse> response in jResponseDictionary)
+            using (var stream = new MemoryStream(Encoding.ASCII.GetBytes(response.Content)))
             {
-                using (var stream = new MemoryStream(Encoding.ASCII.GetBytes(response.Value.Content)))
-                {
-                    var quotas = new XmlDictionaryReaderQuotas();
-                    response.Value.Content = XDocument.Load(JsonReaderWriterFactory.CreateJsonReader(stream, quotas)).ToString();
-                }
+                var quotas = new XmlDictionaryReaderQuotas();
+                response.Content = XDocument.Load(JsonReaderWriterFactory.CreateJsonReader(stream, quotas)).ToString();
             }
         }
     }

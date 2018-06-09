@@ -4,7 +4,7 @@ using System.Text;
 
 namespace JRequest.Net
 {
-    public class JResponse
+    public class Response
     {
         public string RequestKey { get; set; }
         public Dictionary<string, string> Headers { get; set; }

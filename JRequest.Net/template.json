@@ -1,5 +1,5 @@
 ﻿{
-  "protocol": "http",
+  "protocol": "https",
   "name": "Weather Forecast",
   "requests": [
     {
