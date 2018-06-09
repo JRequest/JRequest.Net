@@ -59,5 +59,9 @@ namespace JRequest.Net
                 throw ex;
             }
         }
+        public static bool StringEquals(object obj1, object obj2)
+        {
+            return (obj1.ToString().ToLower() == obj2.ToString().ToLower());
+        }
     }
 }

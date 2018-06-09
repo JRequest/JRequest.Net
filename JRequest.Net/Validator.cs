@@ -11,13 +11,13 @@ namespace JRequest.Net
     public class Validator
     {
 
-        internal static bool ValidateJson(string json)
+        internal static JRequest ValidateJson(string json)
         {
             try
             {
                 JToken.Parse(json);//check if json string can be parsed
                 JRequest jRequest = JsonConvert.DeserializeObject<JRequest>(json);//check if json string can be deserialized into a dynamic object
-                return true;
+                return jRequest;
             }
             catch (JsonReaderException ex)
             {
@@ -45,7 +45,10 @@ namespace JRequest.Net
                 if (!(jRequest.Requests.Select(r => r.Key).Distinct().Count() == jRequest.Requests.Select(r => r.Key).Count()))
                     throw new JRequestException("Some of the requests contain duplicate key.");
 
-                if (jRequest.Protocol.ToLower() == Protocol.http.ToString().ToLower())
+                if(!Utility.StringEquals(jRequest.Protocol,Protocol.http) && !Utility.StringEquals(jRequest.Protocol, Protocol.https) && !Utility.StringEquals(jRequest.Protocol, Protocol.ftp))
+                    throw new JRequestException("Unsupported protocol.");
+
+                if (Utility.StringEquals(jRequest.Protocol, Protocol.http) || Utility.StringEquals(jRequest.Protocol, Protocol.https))
                 {
                     jRequest.Requests.ForEach(request =>
                     {
@@ -79,7 +82,7 @@ namespace JRequest.Net
                 if (!Utility.HasValue(request.Key))
                     throw new JRequestException("Request Key is required.");
 
-                if ((request.Method.ToLower() == HttpMethod.POST.ToString().ToLower()) && (!Utility.HasValue(request.Body)))
+                if ((Utility.StringEquals(request.Method, HttpMethod.POST)) && (!Utility.HasValue(request.Body)))
                     throw new JRequestException("A POST request requires data in the body.");
 
                 if (request.Parameters != null)

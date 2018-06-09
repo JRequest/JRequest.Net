@@ -1,0 +1,25 @@
+﻿{
+  "protocol": "https",
+  "name": "Dummy",
+  "requests": [
+    {
+      "key": "placeholder",
+      "url": "https://jsonplaceholder.typicode.com/posts/1",
+      "contenttype": "application/json"
+    },
+    {
+      "requesttype": "output",
+      "key": "placeholder-xml",
+      "url": "https://jsonplaceholder.typicode.com/posts/1",
+      "method": "GET",
+      "headers": [
+        {"Content-Type": "application/json"}
+      ],
+      "configuration": {
+        "output": {
+          "type": "xml"
+        }
+      }
+    }
+  ]
+}

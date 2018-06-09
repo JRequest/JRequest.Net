@@ -15,25 +15,23 @@ namespace JRequest.Net
     {
         static JRequest jRequest;
         static Stack<Request> requestStack;
-        static List<Dictionary<string, JResponse>> outputResponse = new List<Dictionary<string, JResponse>>();
+        //static List<Dictionary<string, JRequest>> outputResponse = new List<Dictionary<string, JRequest>>();
 
         /// <summary>
         /// Builds a JRequest object from the input JSON and calls the specified web API's.
         /// </summary>
         /// <param name="jsonString"></param>
-        /// <returns>List<Dictionary<string, JResponse>></returns>
-        public static List<Dictionary<string, JResponse>> Run(string jsonString)
+        /// <returns>JRequest</returns>
+        public static JRequest Run(string jsonString)
         {
-            JResponse apiResponse = null;
+            Response response = null;
             try
             {
-                Validator.ValidateJson(jsonString);
-                jRequest = JsonConvert.DeserializeObject<JRequest>(jsonString);
+                jRequest = Validator.ValidateJson(jsonString);
                 Validator.ValidateJRequest(jRequest);
-
                 requestStack = StackRequests(jRequest);
 
-                if (jRequest.Protocol.ToLower() == Protocol.http.ToString().ToLower())
+                if (Utility.StringEquals(jRequest.Protocol,Protocol.http) || Utility.StringEquals(jRequest.Protocol, Protocol.https))
                 {
                     requestStack.ToList().ForEach(request =>
                     {
@@ -43,48 +41,50 @@ namespace JRequest.Net
                         }
 
                         ParseRequest(request);
-                        apiResponse = CallHttp(request);
+                        response = CallHttp(request);
 
-                        if (Utility.HasValue(apiResponse))
+                        if (Utility.HasValue(response))
                         {
-                            Dictionary<string, JResponse> jResponseDictionary = new Dictionary<string, JResponse>();
-                            jResponseDictionary.Add(request.Key, apiResponse);
-                            if (request.RequestType.ToLower() == RequestType.Input.ToString().ToLower())
+
+                            request.Response = response;//add the response into the request
+                            
+                            if (Utility.StringEquals(request.RequestType, RequestType.Input))
                             {
-                                Storage.Store(jResponseDictionary);
+                                Dictionary<string, Response> responseToStore = new Dictionary<string, Response>();
+                                responseToStore.Add(request.Key, response);
+                                Storage.Store(responseToStore);
                             }
                             else
                             {
                                 if (Utility.HasValue(request?.Configuration?.Output))
                                 {
-                                    if (request.Configuration.Output.Type.ToLower() == OutputType.joson.ToString())
+                                    if (Utility.StringEquals(request.Configuration.Output.Type, OutputType.joson))
                                     {
-                                        Output.ToJson(jResponseDictionary);
+                                        Output.ToJson(request.Response);
                                     }
-                                    else if (request.Configuration.Output.Type.ToLower() == OutputType.xml.ToString())
+                                    else if (Utility.StringEquals(request.Configuration.Output.Type, OutputType.xml))
                                     {
-                                        Output.ToXml(jResponseDictionary);
+                                        Output.ToXml(request.Response);
                                     }
                                 }
-
-                                outputResponse.Add(jResponseDictionary);
                             }
                         }
                     });
                 }
-                else if (jRequest.Protocol.ToLower() == Protocol.ftp.ToString().ToLower())
+                else if (Utility.StringEquals(jRequest.Protocol, Protocol.ftp))
                 {
                     requestStack.ToList().ForEach(request =>
                     {
                         ParseRequest(request);
 
-                        apiResponse = CallFtp(request);
+                        response = CallFtp(request);
 
-                        if (Utility.HasValue(apiResponse))
+                        if (Utility.HasValue(response))
                         {
-                            Dictionary<string, JResponse> jResponseDictionary = new Dictionary<string, JResponse>();
-                            jResponseDictionary.Add(request.Key, apiResponse);
-                            if (request.RequestType.ToLower() == RequestType.Input.ToString().ToLower())
+                            request.Response = response;
+                            Dictionary<string, Response> jResponseDictionary = new Dictionary<string, Response>();
+                            jResponseDictionary.Add(jRequest.Name, response);
+                            if (Utility.StringEquals(request.RequestType, RequestType.Input))
                             {
                                 Storage.Store(jResponseDictionary);
                             }
@@ -92,17 +92,15 @@ namespace JRequest.Net
                             {
                                 if (Utility.HasValue(request?.Configuration?.Output))
                                 {
-                                    if (request.Configuration.Output.Type.ToLower() == OutputType.joson.ToString())
+                                    if (Utility.StringEquals(request.Configuration.Output.Type, OutputType.joson))
                                     {
-                                        Output.ToJson(jResponseDictionary);
+                                        Output.ToJson(request.Response);
                                     }
-                                    else if (request.Configuration.Output.Type.ToLower() == OutputType.xml.ToString())
+                                    else if (Utility.StringEquals(request.Configuration.Output.Type, OutputType.xml))
                                     {
-                                        Output.ToXml(jResponseDictionary);
+                                        Output.ToXml(request.Response);
                                     }
                                 }
-
-                                outputResponse.Add(jResponseDictionary);
                             }
                         }
                     });
@@ -114,12 +112,7 @@ namespace JRequest.Net
                 throw new JRequestException(ex.Message, ex.InnerException);
             }
 
-            return outputResponse;
-        }
-
-        public static List<Dictionary<string, JResponse>> RunTemplate(string outputType = "json")
-        {
-            return JRequestEngine.Run(Utility.GetTemplateJson(outputType));
+            return jRequest;
         }
 
         private static Request ParseRequest(Request request)
@@ -199,7 +192,7 @@ namespace JRequest.Net
             try
             {
                 (jRequest.Requests
-                    .Where(r => r.RequestType.ToLower() == RequestType.Output.ToString().ToLower())
+                    .Where(r => Utility.StringEquals(r.RequestType, RequestType.Output))
                     .ToList()).ForEach(q =>
                     {
                         requestStack.Push(q);
@@ -207,7 +200,7 @@ namespace JRequest.Net
 
 
                 (jRequest.Requests
-                    .Where(r => r.RequestType.ToLower() == RequestType.Input.ToString().ToLower())
+                    .Where(r => Utility.StringEquals(r.RequestType, RequestType.Input))
                     .OrderByDescending(r => r.Ordinal)
                     .ToList()).ForEach(q =>
                     {
@@ -223,9 +216,9 @@ namespace JRequest.Net
             }
         }
 
-        private static JResponse CallHttp(Request request)
+        private static Response CallHttp(Request request)
         {
-            JResponse response = null;
+            Response response = null;
 
             try
             {
@@ -276,7 +269,12 @@ namespace JRequest.Net
                     {
                         foreach (KeyValuePair<string, string> item in header.ToList())
                         {
-                            httpWebRequest.Headers.Add(item.Key.Trim(), item.Value.Trim());
+                            if (item.Key.Trim().ToLower() == "content-type")
+                                httpWebRequest.ContentType = item.Value.Trim();
+
+                            else
+                                httpWebRequest.Headers.Add(item.Key.Trim(), item.Value.Trim());
+
                         }
                     });
                 }
@@ -297,7 +295,7 @@ namespace JRequest.Net
                     Stream responseStream = httpWebResponse.GetResponseStream();
                     StreamReader streamReader = new StreamReader(responseStream, encode, true);
 
-                    response = new JResponse
+                    response = new Response
                     {
                         Status = httpWebResponse.StatusDescription,
                         ContentLength = httpWebResponse.ContentLength,
@@ -323,9 +321,9 @@ namespace JRequest.Net
             return response;
         }
 
-        private static JResponse CallFtp(Request request)
+        private static Response CallFtp(Request request)
         {
-            JResponse response = null;
+            Response response = null;
 
             try
             {
@@ -345,7 +343,7 @@ namespace JRequest.Net
                             Stream responseStream = ftpWebResponse.GetResponseStream();
                             StreamReader streamReader = new StreamReader(responseStream);
 
-                            response = new JResponse
+                            response = new Response
                             {
                                 Status = ftpWebResponse.StatusDescription,
                                 ContentLength = ftpWebResponse.ContentLength,
