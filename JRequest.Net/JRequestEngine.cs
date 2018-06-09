@@ -15,7 +15,6 @@ namespace JRequest.Net
     {
         static JRequest jRequest;
         static Stack<Request> requestStack;
-        //static List<Dictionary<string, JRequest>> outputResponse = new List<Dictionary<string, JRequest>>();
 
         /// <summary>
         /// Builds a JRequest object from the input JSON and calls the specified web API's.
