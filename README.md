@@ -41,7 +41,8 @@ var response = JRequestEngine.Run(json);
 ### Description
 | Property | Type | Mandatory |	Default Value |	Allowed Values | Description |
 | -------- | ---- | --------- | ------------- | ----------------- | -------- |
-| protocol |	string |	true |	HTTP |	HTTP,HTTPS,FTP | the type of protocol that is used in the internet
-| name | string |	false | JRequest | any | the name of the root JRequest object
-| requests | Array of objects |	True |	Null | can be any number of HTTP(S) or FTP request objects which defines its own set of properties
-| requesttype | string | false | output | input,output | **input**: the response will be saved in the global storage and the values will be available for use by other requests. 
+| protocol |	string |	true |	HTTP |	HTTP,HTTPS,FTP | The type of protocol that is used in the internet.
+| name | string |	false | JRequest | any string | the name of the root JRequest object.
+| requests | Array of objects |	True |	Null | Can be any number of HTTP(S) or FTP request objects which defines its own set of properties.
+| requesttype | string | false | output | input,output | **input:** The response data will be saved in the global storage and the values can be used by other requests. **output:** The response data will not be saved in the global storage and used by other requests.
+| key | string | true | null | any string | used to uniquely identify a request. Duplicate keys are not allowed.
