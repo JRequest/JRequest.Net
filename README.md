@@ -1,5 +1,9 @@
 # JRequest.Net
 JRequest.NET is a powerful library which allows applications to call web APIs using JSON.
+## Benefits and Features
+* Abstracts the complexity of calling web APIs.
+* Supports HTTP and FTP web APIs.
+* Supports Request dependency.
 ## Getting Started
 ### Prerequisites
 * .NET Standard 2.0
@@ -9,7 +13,7 @@ You can download JRequest.Net from GitHub or install it directly into your proje
 ```
 PM> Install-Package JRequest.NET -Version 1.2.0
 ```
-### Usage
+### Running JRequest.Net
 Example 1
 ```
 string json = "{
@@ -39,7 +43,7 @@ string json = "{
   ]
 }"
 
-var response = JRequestEngine.Run(json);
+var jRequest = new JRequestContext(json).Build().Run();
 ```
 ### JRequest JSON schema description
 | Property | Type | Mandatory |	Default Value |	Allowed Values | Description |
