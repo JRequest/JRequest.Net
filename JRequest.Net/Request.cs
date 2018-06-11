@@ -1,7 +1,5 @@
 ﻿using JRequest.Net.Enumerators;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace JRequest.Net
 {

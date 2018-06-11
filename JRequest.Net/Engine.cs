@@ -1,5 +1,4 @@
 ﻿using JRequest.Net.Enumerators;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -11,28 +10,40 @@ using System.Web;
 
 namespace JRequest.Net
 {
-    public class JRequestEngine
+    internal static class Engine
     {
-        static JRequest jRequest;
-        static Stack<Request> requestStack;
+        internal static JRequestContext jRequestContext = null;
 
-        /// <summary>
-        /// Builds a JRequest object from the input JSON and calls the specified web API's.
-        /// </summary>
-        /// <param name="jsonString"></param>
-        /// <returns>JRequest</returns>
-        public static JRequest Run(string jsonString)
+        internal static JRequestContext Build(string json)
         {
-            Response response = null;
             try
             {
-                jRequest = Validator.ValidateJson(jsonString);
-                Validator.ValidateJRequest(jRequest);
-                requestStack = StackRequests(jRequest);
+                if (!Utility.HasValue(json))
+                    throw new JRequestException("The JSON string is empty.");
 
-                if (Utility.StringEquals(jRequest.Protocol,Protocol.http) || Utility.StringEquals(jRequest.Protocol, Protocol.https))
+                jRequestContext = Validator.ValidateJson(json);
+                Validator.ValidateJRequest(jRequestContext);
+                jRequestContext.Requests = StackRequests(jRequestContext).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new JRequestException((ex is JRequestException) ? ex.Message : "Build Failed.", ex.InnerException);
+            }
+            return jRequestContext;
+        }
+
+        internal static JRequestContext Run()
+        {
+            try
+            {
+                if (jRequestContext == null)
+                    throw new JRequestException("JRequest object is not initialized.");
+
+                Response response = null;
+
+                if (Utility.StringEquals(jRequestContext.Protocol, Protocol.http) || Utility.StringEquals(jRequestContext.Protocol, Protocol.https))
                 {
-                    requestStack.ToList().ForEach(request =>
+                    jRequestContext.Requests.ForEach(request =>
                     {
                         if (Utility.HasValue(request.Authorization))
                         {
@@ -40,13 +51,13 @@ namespace JRequest.Net
                         }
 
                         ParseRequest(request);
-                        response = CallHttp(request);
+                        response = RunHttp(request);
 
                         if (Utility.HasValue(response))
                         {
 
                             request.Response = response;//add the response into the request
-                            
+
                             if (Utility.StringEquals(request.RequestType, RequestType.Input))
                             {
                                 Dictionary<string, Response> responseToStore = new Dictionary<string, Response>();
@@ -70,19 +81,19 @@ namespace JRequest.Net
                         }
                     });
                 }
-                else if (Utility.StringEquals(jRequest.Protocol, Protocol.ftp))
+                else if (Utility.StringEquals(jRequestContext.Protocol, Protocol.ftp))
                 {
-                    requestStack.ToList().ForEach(request =>
+                    jRequestContext.Requests.ForEach(request =>
                     {
                         ParseRequest(request);
 
-                        response = CallFtp(request);
+                        response = RunFtp(request);
 
                         if (Utility.HasValue(response))
                         {
                             request.Response = response;
                             Dictionary<string, Response> jResponseDictionary = new Dictionary<string, Response>();
-                            jResponseDictionary.Add(jRequest.Name, response);
+                            jResponseDictionary.Add(jRequestContext.Name, response);
                             if (Utility.StringEquals(request.RequestType, RequestType.Input))
                             {
                                 Storage.Store(jResponseDictionary);
@@ -111,7 +122,7 @@ namespace JRequest.Net
                 throw new JRequestException(ex.Message, ex.InnerException);
             }
 
-            return jRequest;
+            return jRequestContext;
         }
 
         private static Request ParseRequest(Request request)
@@ -185,7 +196,7 @@ namespace JRequest.Net
             }
         }
 
-        private static Stack<Request> StackRequests(JRequest jRequest)
+        private static Stack<Request> StackRequests(JRequestContext jRequest)
         {
             Stack<Request> requestStack = new Stack<Request>();
             try
@@ -215,7 +226,7 @@ namespace JRequest.Net
             }
         }
 
-        private static Response CallHttp(Request request)
+        private static Response RunHttp(Request request)
         {
             Response response = null;
 
@@ -320,7 +331,7 @@ namespace JRequest.Net
             return response;
         }
 
-        private static Response CallFtp(Request request)
+        private static Response RunFtp(Request request)
         {
             Response response = null;
 
@@ -375,7 +386,7 @@ namespace JRequest.Net
             return response;
         }
 
-        private static Request GetRequest(JRequest jRequest, string requestKey)
+        private static Request GetRequest(JRequestContext jRequest, string requestKey)
         {
             Request request = null;
 
