@@ -8,34 +8,16 @@ namespace JRequest.Net
 {
     internal class Storage
     {
-        public static List<Dictionary<string, Response>> globalStorage = new List<Dictionary<string, Response>>();
+        private static List<Dictionary<string, Response>> globalStorage = new List<Dictionary<string, Response>>();
 
-        public static void Store(Dictionary<string, Response> response)
+        public static List<Dictionary<string, Response>> GlobalStorage { get => globalStorage; set => globalStorage = value; }
+
+        internal static void Store(Dictionary<string, Response> response)
         {
-            globalStorage.Add(response);
+            GlobalStorage.Add(response);
         }
-        public static bool Store(string key, Response response)
-        {
-            try
-            {
-                if (Utility.HasValue(key) && Utility.HasValue(response))
-                {
-                    Dictionary<string, Response> keyVal = new Dictionary<string, Response>();
-                    keyVal.Add(key, response);
-                    Store(keyVal);
-                    return true;
-                }
-                else
-                    return false;
-            }
-            catch (Exception ex)
-            {
-
-                throw new JRequestException(ex.Message, ex.InnerException);
-            }
-        }
-
-        public static List<string> Search(string dataPath)
+        
+        internal static List<string> Search(string dataPath)
         {
             try
             {
@@ -101,12 +83,12 @@ namespace JRequest.Net
             }
         }
 
-        public static Response GetRequestResponse(string requestKey)
+        private static Response GetRequestResponse(string requestKey)
         {
             Response response = null;
             try
             {
-                globalStorage.ForEach(items =>
+                GlobalStorage.ForEach(items =>
                 {
                     foreach (KeyValuePair<string, Response> item in items)
                     {
@@ -129,7 +111,7 @@ namespace JRequest.Net
             return response;
         }
 
-        public static void FindHeaderValue(Response response, string headerKey, List<string> searchResults)
+        private static void FindHeaderValue(Response response, string headerKey, List<string> searchResults)
         {
             try
             {
@@ -148,7 +130,7 @@ namespace JRequest.Net
             }
         }
 
-        public static void FindCookieValue(Response response, string cookieKey, List<string> searchResults)
+        private static void FindCookieValue(Response response, string cookieKey, List<string> searchResults)
         {
             try
             {
@@ -168,7 +150,7 @@ namespace JRequest.Net
             }
         }
 
-        public static void SearchJson(List<string> key, dynamic jsonObject, List<string> searchResults, int index = 0)
+        private static void SearchJson(List<string> key, dynamic jsonObject, List<string> searchResults, int index = 0)
         {
             try
             {

@@ -7,15 +7,15 @@ using System.Linq;
 
 namespace JRequest.Net
 {
-    public class Validator
+    internal class Validator
     {
 
-        internal static JRequest ValidateJson(string json)
+        internal static JRequestContext ValidateJson(string json)
         {
             try
             {
                 JToken.Parse(json);//check if json string can be parsed
-                JRequest jRequest = JsonConvert.DeserializeObject<JRequest>(json);//check if json string can be deserialized into a dynamic object
+                JRequestContext jRequest = JsonConvert.DeserializeObject<JRequestContext>(json);//check if json string can be deserialized into a dynamic object
                 return jRequest;
             }
             catch (JsonReaderException ex)
@@ -28,7 +28,7 @@ namespace JRequest.Net
             }
         }
 
-        public static bool ValidateJRequest(JRequest jRequest)
+        internal static bool ValidateJRequest(JRequestContext jRequest)
         {
             try
             {
