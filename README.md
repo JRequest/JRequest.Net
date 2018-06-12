@@ -12,7 +12,7 @@ JRequest.NET is a powerful library which allows applications to call web APIs us
 ### Installation
 You can clone JRequest.Net from GitHub or install it directly into your project from NuGet package manager.
 ```
-//use recent version
+//use latest version
 PM> Install-Package JRequest.NET -Version 1.2.0
 ```
 ### Running JRequest.Net
@@ -34,16 +34,14 @@ PM> Install-Package JRequest.NET -Version 1.2.0
           "username",
           "password"
       },
-      "parameters": [
-      ],
-      "headers": [
-      ],
+      "parameters": [],
+      "headers": [],
       "configuration": {
         "output": {
           "type": ""
         }
       }
-      "ordinal": 
+      "ordinal": 1
     }
   ]
 }
