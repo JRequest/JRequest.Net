@@ -64,7 +64,7 @@ PM> Install-Package JRequest.NET -Version 1.2.0
 
 ### Usage
 #### Example 1
-In this tutorial we are going to send http request to "https://jsonplaceholder.typicode.com" web API from a console application using C#. JSONPlaceholder is a simple fake REST API for testing and prototyping.This JRequest object ("Dummy Request") has two requests pointing to different resources. The first request sends a GET request to posts with ID #1. And the second request again sends a GET request to post ID #1 comments and configured to convert the response data to output as xml. The first request uses the bare minimum requirements to call an API from JRequest.Net.
+In this example we are using [JSONPlaceholder](https://jsonplaceholder.typicode.com) web API. from a console application using C#. JSONPlaceholder is a simple fake REST API for testing and prototyping.This JRequest object ("Dummy Request") has two requests pointing to different resources. The first request sends a GET request to posts with ID #1. And the second request again sends a GET request to post ID #1 comments and configured to convert the response data to output as xml. The first request uses the bare minimum requirements to call an API from JRequest.Net.
 
 ```
 using System;
