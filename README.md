@@ -54,7 +54,7 @@ PM> Install-Package JRequest.NET -Version 1.2.0
 | Requests | array |	True |	Null | Can be any number of HTTP(S) or FTP request objects. | Collection of request objects.
 | RequestType | string | false | output | input, output | **input:** The response data will be saved in the global storage and the values can be used by other requests. **output:** The response data will not be saved in the global storage and used by other requests.
 | Key | string | true | null | any string | Used to uniquely identify a request. Duplicate keys are not allowed.
-| URL | string | true | null | valid URL | A reference to a web resource. Parameters can be included in the URL, however it is recommended to use the ``Parameters[]`` property to add parameter values.
+| URL | string | true | null | valid URL | A reference to a web resource. Parameters can be included in the URL, however it is recommended to use the ``Parameters[]`` array to add parameter values.
 | Method | string | false | GET | GET, POST | Methods used to send the request to a server.
 | ContentType | string | false | application/json | application/json, application/xml | Indicates the media type of the resource. Content type can also be specified inside the header.
 | Parameters | array | false | null | any number of key value paired objects | As an alternative of adding parameters in the url, it's recommended to add parameters in the parameters array in the format of {"key", "value"} pairs.
@@ -64,17 +64,18 @@ PM> Install-Package JRequest.NET -Version 1.2.0
 
 ### Usage
 #### Example 1
-In this example we are using [JSONPlaceholder](https://jsonplaceholder.typicode.com) web API. from a console application using C#. JSONPlaceholder is a simple fake REST API for testing and prototyping.This JRequest object ("Dummy Request") has two requests pointing to different resources. The first request sends a GET request to posts with ID #1. And the second request again sends a GET request to post ID #1 comments and configured to convert the response data to output as xml. The first request uses the bare minimum requirements to call an API from JRequest.Net.
+In this example we are using [JSONPlaceholder](https://jsonplaceholder.typicode.com), a simple fake REST API for testing and prototyping. The JRequest JSON object, "Dummy", has two requests pointing to different resources. The first request sends a GET request to posts with ID #1. And the second request again sends a GET request to post ID #1 comments and configured to convert the response data to xml. The first request uses the bare minimum requirements to call an API from JRequest.Net.
 
 ```
 using System;
 using System.IO;
 using JRequest.Net;
+
 static void Main(string[] args)
 {
     string json = "@"{
     'Protocol': 'https',
-    'Name': 'Dummy Request',
+    'Name': 'Dummy',
     'Requests': [
       {
         'Key': 'post1',
