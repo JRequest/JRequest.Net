@@ -1,7 +1,7 @@
 # JRequest.Net
 JRequest.NET is a powerful library which allows applications to call web APIs using JSON.
 ## Benefits and Features
-* Abstracts the complexity of calling web APIs from your code.
+* Abstracts the complexity of calling web APIs from your .NET code.
 * Supports HTTP and FTP web requests.
 * Allows Request chaining.
 * Converts response data from xml to json or viceversa.
@@ -10,38 +10,38 @@ JRequest.NET is a powerful library which allows applications to call web APIs us
 ## Getting Started
 
 ### Installation
-You can clone JRequest.Net from GitHub or install it directly into your project from NuGet package manager.
+You can clone JRequest.Net from GitHub or install it directly into your project from [NuGet](https://www.nuget.org/packages/JRequest.NET/ "Get the latest version from NuGet") package manager.
 ```
-//use latest version
+//example
 PM> Install-Package JRequest.NET -Version 1.2.0
 ```
 ### Running JRequest.Net
 #### JRequest JSON Schema
 ```
 {
-  "protocol": "",
-  "name": "",
-  "requests": [
+  "Protocol": "",
+  "Name": "",
+  "Requests": [
     {
-      "requesttype": "",
-      "key": "",
-      "url": "",
-      "method": "",
-      "contenttype": "",
-      "authorization": {
-          "type": "",
-          "token",
-          "username",
-          "password"
+      "RequestType": "",
+      "Key": "",
+      "URL": "",
+      "Method": "",
+      "ContentType": "",
+      "Authorization": {
+          "Type": "",
+          "Token",
+          "Username",
+          "Password"
       },
-      "parameters": [],
-      "headers": [],
-      "configuration": {
-        "output": {
-          "type": ""
+      "Parameters": [],
+      "Headers": [],
+      "Configuration": {
+        "Output": {
+          "Type": ""
         }
       }
-      "ordinal": 1
+      "Ordinal": 1
     }
   ]
 }
@@ -49,18 +49,18 @@ PM> Install-Package JRequest.NET -Version 1.2.0
 ### Schema Description
 | Property | Type | Mandatory |	Default Value |	Allowed Values | Description |
 | -------- | ---- | --------- | ------------- | ----------------- | -------- |
-| protocol |	string |	true |	HTTP |	HTTP(s) ,FTP | The type of protocol that is used in the internet.
-| name | string |	false | "JRequest" | any string | The name of the root JRequest object.
-| requests | array |	True |	Null | Can be any number of HTTP(S) or FTP request objects. | Collection of request objects.
-| requesttype | string | false | output | input,output | **input:** The response data will be saved in the global storage and the values can be used by other requests. **output:** The response data will not be saved in the global storage and used by other requests.
-| key | string | true | null | any string | Used to uniquely identify a request. Duplicate keys are not allowed.
-| url | string | true | null | valid URL | A reference to a web resource. Parameter values can be included in the URL, however it is recommended to use the parameters property to add parameter values.
-| method | string | false | GET | GET,POST | Methods used to send the request to a server.
-| contenttype | string | false | application/json | application/json, application/xml | Indicates the media type of the resource. Content type can also be specified inside the header.
-| parameters | array | false | null | any number of key value paired objects | As an alternative of adding parameters in the url, it's recommended to add parameters in the parameters array in the format of {"key", "value"} pairs.
-| headers | array | false | null | any number of key value paired objects | Allows the request to send additional information to the server. Example: {"Authorization": "basic aGVsbG8gd29ybGQ="}
-| body | string | false | null | any string | Used to send data to the server when request method is POST
-| authorization | object | null | **Authorization** object | 
+| Protocol |	string |	true |	HTTP |	HTTP(s) ,FTP | The type of protocol that is used in the internet.
+| Name | string |	false | "JRequest" | any string | The name of the root JRequest object.
+| Requests | array |	True |	Null | Can be any number of HTTP(S) or FTP request objects. | Collection of request objects.
+| RequestType | string | false | output | input,output | **input:** The response data will be saved in the global storage and the values can be used by other requests. **output:** The response data will not be saved in the global storage and used by other requests.
+| Key | string | true | null | any string | Used to uniquely identify a request. Duplicate keys are not allowed.
+| URL | string | true | null | valid URL | A reference to a web resource. Parameter values can be included in the URL, however it is recommended to use the parameters property to add parameter values.
+| Method | string | false | GET | GET,POST | Methods used to send the request to a server.
+| ContentType | string | false | application/json | application/json, application/xml | Indicates the media type of the resource. Content type can also be specified inside the header.
+| Parameters | array | false | null | any number of key value paired objects | As an alternative of adding parameters in the url, it's recommended to add parameters in the parameters array in the format of {"key", "value"} pairs.
+| Headers | array | false | null | any number of key value paired objects | Allows the request to send additional information to the server. Example: {"Authorization": "basic aGVsbG8gd29ybGQ="}
+| Body | string | false | null | any string | Used to send data to the server when request method is POST
+| Authorization | object | false | null | authorization object | Used to 
 
 ### Usage
 #### Example 1
@@ -117,3 +117,5 @@ static void Main(string[] args)
 ```
 
 ### Request Chaining
+
+### Cookies
