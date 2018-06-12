@@ -64,8 +64,8 @@ PM> Install-Package JRequest.NET -Version 1.2.0
 | body | string | false | null | any string | Used to send data to the server when request method is POST
 | authorization | object | null | **Authorization** object | 
 
-
-#### Tutorial 1
+### Usage
+#### Example 1
 In this tutorial we are going to send http request to "https://jsonplaceholder" web API from a console application using C#.  
 **Note** the json string used in the example is not properly formatted for readability purpose. If you want to copy and paste it in your code, just add a backslash ("\") before every double quote(").
 ```
