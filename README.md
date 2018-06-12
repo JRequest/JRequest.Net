@@ -4,7 +4,7 @@ JRequest.NET is a powerful library which allows applications to call web APIs us
 * Abstracts the complexity of calling web APIs from your code.
 * Supports HTTP and FTP web requests.
 * Allows Request chaining.
-* Convert output response file into different format (xml to json/ json to xml).
+* Converts response data from xml to json or viceversa.
 * Support .NET Standard 2.0
 
 ## Getting Started
@@ -16,7 +16,39 @@ You can clone JRequest.Net from GitHub or install it directly into your project 
 PM> Install-Package JRequest.NET -Version 1.2.0
 ```
 ### Running JRequest.Net
-#### JRequest JSON Schema Properties
+#### JRequest JSON Schema
+```
+{
+  "protocol": "",
+  "name": "",
+  "requests": [
+    {
+      "requesttype": "",
+      "key": "",
+      "url": "",
+      "method": "",
+      "contenttype": "",
+      "authorization": {
+          "type": "",
+          "token",
+          "username",
+          "password"
+      },
+      "parameters": [
+      ],
+      "headers": [
+      ],
+      "configuration": {
+        "output": {
+          "type": ""
+        }
+      }
+      "ordinal": 
+    }
+  ]
+}
+```
+### Schema Description
 | Property | Type | Mandatory |	Default Value |	Allowed Values | Description |
 | -------- | ---- | --------- | ------------- | ----------------- | -------- |
 | protocol |	string |	true |	HTTP |	HTTP ,FTP | The type of protocol that is used in the internet.
