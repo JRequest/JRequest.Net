@@ -51,7 +51,7 @@ PM> Install-Package JRequest.NET -Version 1.2.0
 ### Schema Description
 | Property | Type | Mandatory |	Default Value |	Allowed Values | Description |
 | -------- | ---- | --------- | ------------- | ----------------- | -------- |
-| protocol |	string |	true |	HTTP |	HTTP ,FTP | The type of protocol that is used in the internet.
+| protocol |	string |	true |	HTTP |	HTTP(s) ,FTP | The type of protocol that is used in the internet.
 | name | string |	false | JRequest | any string | The name of the root JRequest object.
 | requests | array of objects |	True |	Null | Can be any number of HTTP(S) or FTP request objects. | Collection of request objects.
 | requesttype | string | false | output | input,output | **input:** The response data will be saved in the global storage and the values can be used by other requests. **output:** The response data will not be saved in the global storage and used by other requests.
