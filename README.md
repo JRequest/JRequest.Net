@@ -52,10 +52,10 @@ PM> Install-Package JRequest.NET -Version 1.2.0
 | Protocol |	string |	true |	HTTP |	HTTP(s) ,FTP | The type of protocol that is used in the internet.
 | Name | string |	false | "JRequest" | any string | The name of the root JRequest object.
 | Requests | array |	True |	Null | Can be any number of HTTP(S) or FTP request objects. | Collection of request objects.
-| RequestType | string | false | output | input,output | **input:** The response data will be saved in the global storage and the values can be used by other requests. **output:** The response data will not be saved in the global storage and used by other requests.
+| RequestType | string | false | output | input, output | **input:** The response data will be saved in the global storage and the values can be used by other requests. **output:** The response data will not be saved in the global storage and used by other requests.
 | Key | string | true | null | any string | Used to uniquely identify a request. Duplicate keys are not allowed.
-| URL | string | true | null | valid URL | A reference to a web resource. Parameter values can be included in the URL, however it is recommended to use the parameters property to add parameter values.
-| Method | string | false | GET | GET,POST | Methods used to send the request to a server.
+| URL | string | true | null | valid URL | A reference to a web resource. Parameters can be included in the URL, however it is recommended to use the ``Parameters[]`` property to add parameter values.
+| Method | string | false | GET | GET, POST | Methods used to send the request to a server.
 | ContentType | string | false | application/json | application/json, application/xml | Indicates the media type of the resource. Content type can also be specified inside the header.
 | Parameters | array | false | null | any number of key value paired objects | As an alternative of adding parameters in the url, it's recommended to add parameters in the parameters array in the format of {"key", "value"} pairs.
 | Headers | array | false | null | any number of key value paired objects | Allows the request to send additional information to the server. Example: {"Authorization": "basic aGVsbG8gd29ybGQ="}
@@ -64,34 +64,33 @@ PM> Install-Package JRequest.NET -Version 1.2.0
 
 ### Usage
 #### Example 1
-In this tutorial we are going to send http request to "https://jsonplaceholder" web API from a console application using C#.  
-**Note** the json string used in the example is not properly formatted for readability purpose. If you want to copy and paste it in your code, just add a backslash ("\") before every double quote(").
+In this tutorial we are going to send http request to "https://jsonplaceholder.typicode.com" web API from a console application using C#. JSONPlaceholder is a simple fake REST API for testing and prototyping.This JRequest object ("Dummy Request") has two requests pointing to different resources. The first request sends a GET request to posts with ID #1. And the second request again sends a GET request to post ID #1 comments and configured to convert the response data to output as xml. The first request uses the bare minimum requirements to call an API from JRequest.Net.
+
 ```
 using System;
 using System.IO;
 using JRequest.Net;
 static void Main(string[] args)
 {
-    string json = "{
-    "protocol": "https",
-    "name": "Dummy Request",
-    "requests": [
+    string json = "@"{
+    'Protocol': 'https',
+    'Name': 'Dummy Request',
+    'Requests': [
       {
-        "key": "post1",
-        "url": "https://jsonplaceholder.typicode.com/posts/1",
-        "contenttype": "application/json"
+        'Key': 'post1',
+        'URL': 'https://jsonplaceholder.typicode.com/posts/1'
       },
       {
-        "requesttype": "output",
-        "key": "post1comments",
-        "url": "https://jsonplaceholder.typicode.com/posts/1/comments",
-        "method": "GET",
-        "headers": [
-          { "Content-Type": "application/json" }
+        'RequestType': 'output',
+        'Key': 'post1comments',
+        'URL': 'https://jsonplaceholder.typicode.com/posts/1/comments',
+        'Method': 'GET',
+        'Headers': [
+          { 'Content-Type': 'application/json' }
         ],
-        "configuration": {
-          "output": {
-            "type": "xml"
+        'Configuration': {
+          'Output': {
+            'Type': 'xml'
           }
         }
       }
