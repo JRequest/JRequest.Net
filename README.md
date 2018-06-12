@@ -3,8 +3,8 @@ JRequest.NET is a powerful library which allows applications to call web APIs us
 ## Benefits and Features
 * Abstracts the complexity of calling web APIs from your .NET code.
 * Supports HTTP and FTP web requests.
-* Allows Request chaining.
-* Converts response data from xml to json or viceversa.
+* Allows Request chaining (explained).
+* Converts xml response to json or json to xml.
 * Support .NET Standard 2.0
 
 ## Getting Started
@@ -60,7 +60,7 @@ PM> Install-Package JRequest.NET -Version 1.2.0
 | Parameters | array | false | null | any number of key value paired objects | As an alternative of adding parameters in the url, it's recommended to add parameters in the parameters array in the format of {"key", "value"} pairs.
 | Headers | array | false | null | any number of key value paired objects | Allows the request to send additional information to the server. Example: {"Authorization": "basic aGVsbG8gd29ybGQ="}
 | Body | string | false | null | any string | Used to send data to the server when request method is POST
-| Authorization | object | false | null | authorization object | Used to 
+| Authorization | object | false | null | authorization object | Used to send authentication credentials in the header of the request. There are two type of authorization can be used in the Authorization object of JRequest. **Basic Authentication** and **Bearer Authentication**. Basic Authentication transmits credentials as user ID/password pairs, encoded using base64. Bearer Authentication(Token Authentication) uses security tokens called bearer tokens to authenticate.
 
 ### Usage
 #### Example 1
