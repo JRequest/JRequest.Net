@@ -114,6 +114,9 @@ namespace JRequest.Net
                     });
                 }
 
+                if (Utility.HasValue(request?.Configuration?.Output))
+                    ValidateOutput(request.Configuration.Output);
+
                 return true;
             }
             catch (Exception ex)
@@ -140,6 +143,21 @@ namespace JRequest.Net
 
                 throw new JRequestException(ex.Message, ex.InnerException);
             }
+        }
+
+        private static bool ValidateOutput(Output output)
+        {
+            try
+            {
+                if(!Utility.HasValue(output?.Type))
+                    throw new JRequestException("Output 'Type' property is not defined.");
+            }
+            catch (Exception ex)
+            {
+
+                throw new JRequestException(ex.Message, ex.InnerException);
+            }
+            return true;
         }
     }
 }

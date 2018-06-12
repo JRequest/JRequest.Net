@@ -10,7 +10,7 @@ using System.Web;
 
 namespace JRequest.Net
 {
-    internal static class Engine
+    internal static class JRequestEngine
     {
         internal static JRequestContext jRequestContext = null;
 
@@ -27,7 +27,7 @@ namespace JRequest.Net
             }
             catch (Exception ex)
             {
-                throw new JRequestException((ex is JRequestException) ? ex.Message : "Build Failed.", ex.InnerException);
+                throw new JRequestException(ex.Message, ex.InnerException);
             }
             return jRequestContext;
         }
@@ -51,7 +51,7 @@ namespace JRequest.Net
                         }
 
                         ParseRequest(request);
-                        response = RunHttp(request);
+                        response = SendHttpRequest(request);
 
                         if (Utility.HasValue(response))
                         {
@@ -87,7 +87,7 @@ namespace JRequest.Net
                     {
                         ParseRequest(request);
 
-                        response = RunFtp(request);
+                        response = SendFtpRequest(request);
 
                         if (Utility.HasValue(response))
                         {
@@ -102,11 +102,11 @@ namespace JRequest.Net
                             {
                                 if (Utility.HasValue(request?.Configuration?.Output))
                                 {
-                                    if (Utility.StringEquals(request.Configuration.Output.Type, OutputType.joson))
+                                    if (Utility.StringEquals(request.Configuration.Output?.Type, OutputType.joson))
                                     {
                                         Output.ToJson(request.Response);
                                     }
-                                    else if (Utility.StringEquals(request.Configuration.Output.Type, OutputType.xml))
+                                    else if (Utility.StringEquals(request.Configuration.Output?.Type, OutputType.xml))
                                     {
                                         Output.ToXml(request.Response);
                                     }
@@ -226,7 +226,7 @@ namespace JRequest.Net
             }
         }
 
-        private static Response RunHttp(Request request)
+        private static Response SendHttpRequest(Request request)
         {
             Response response = null;
 
@@ -331,7 +331,7 @@ namespace JRequest.Net
             return response;
         }
 
-        private static Response RunFtp(Request request)
+        private static Response SendFtpRequest(Request request)
         {
             Response response = null;
 

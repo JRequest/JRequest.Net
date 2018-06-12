@@ -22,15 +22,15 @@ namespace JRequest.Net
 
         public JRequestContext Build()
         {
-            return Engine.Build(Json);
+            return JRequestEngine.Build(Json);
         }
         public JRequestContext Build(string json)
         {
-            return Engine.Build(json);
+            return JRequestEngine.Build(json);
         }
         public JRequestContext Run()
         {
-            return Engine.Run();
+            return JRequestEngine.Run();
         }
     }
 }
