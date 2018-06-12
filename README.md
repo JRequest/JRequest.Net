@@ -1,51 +1,22 @@
 # JRequest.Net
 JRequest.NET is a powerful library which allows applications to call web APIs using JSON.
 ## Benefits and Features
-* Abstracts the complexity of calling web APIs.
-* Supports HTTP and FTP web APIs.
-* Supports Request dependency.
+* Abstracts the complexity of calling web APIs from your code.
+* Supports HTTP and FTP web requests.
+* Allows Request chaining.
+* Convert output response file into different format (xml to json/ json to xml).
+* Support .NET Standard 2.0
+
 ## Getting Started
-### Prerequisites
-* .NET Standard 2.0
-* Newtonsoft.json 
-### Installing
-You can download JRequest.Net from GitHub or install it directly into your project from NuGet package manager CLI.
+
+### Installation
+You can clone JRequest.Net from GitHub or install it directly into your project from NuGet package manager.
 ```
+//use recent version
 PM> Install-Package JRequest.NET -Version 1.2.0
 ```
 ### Running JRequest.Net
-Example 1
-```
-string json = "{
-  "protocol": "https",
-  "name": "Dummy Request",
-  "requests": [
-    {
-      "requesttype": "output",
-      "key": "placeholder",
-      "url": "https://jsonplaceholder.typicode.com/posts/1",
-      "method": "GET",
-      "contenttype": "application/json",
-      "parameters":[
-      ],
-      "headers": [
-      ],
-      "body":"",
-      "authorization": {
-      },
-      "configuration": {
-        "output": {
-          "type": "json"
-        }
-      },
-      "ordinal": "1"
-    }
-  ]
-}"
-
-var jRequest = new JRequestContext(json).Build().Run();
-```
-### JRequest JSON schema description
+#### JRequest JSON Schema Properties
 | Property | Type | Mandatory |	Default Value |	Allowed Values | Description |
 | -------- | ---- | --------- | ------------- | ----------------- | -------- |
 | protocol |	string |	true |	HTTP |	HTTP,HTTPS,FTP | The type of protocol that is used in the internet.
@@ -60,4 +31,60 @@ var jRequest = new JRequestContext(json).Build().Run();
 | headers | array of key value pair objects | false | null | any number of key value paired objects | Allows the request to send additional information to the server. Example: {"Authorization": "basic aGVsbG8gd29ybGQ="}
 | body | string | false | null | any string | Used to send data to the server when request method is POST
 | authorization | object | null | **Authorization** object | 
+
+
+#### Tutorial 1
+In this tutorial we are going to send http request to "https://jsonplaceholder" web API from a console application using C#.  
+**Note** the json string used in the example is not properly formatted for readability purpose. If you want to copy and paste it in your code, just add '\' before every double quote(").
+```
+using System;
+using System.IO;
+using JRequest.Net;
+static void Main(string[] args)
+{
+    string json = "{
+    "protocol": "https",
+    "name": "Dummy Request",
+    "requests": [
+      {
+        "key": "post1",
+        "url": "https://jsonplaceholder.typicode.com/posts/1",
+        "contenttype": "application/json"
+      },
+      {
+        "requesttype": "output",
+        "key": "post1comments",
+        "url": "https://jsonplaceholder.typicode.com/posts/1/comments",
+        "method": "GET",
+        "headers": [
+          { "Content-Type": "application/json" }
+        ],
+        "configuration": {
+          "output": {
+            "type": "xml"
+          }
+        }
+      }
+    ]
+  }"
+
+  var jRequest = new JRequestContext(json).Build().Run();
+
+  Console.WriteLine($"JRequest Name: {jRequest.Name}");
+  foreach (var request in jRequest.Requests)
+  {
+      Console.WriteLine($"Request Key: {request.Key}");
+      Console.WriteLine($"Response Status: {request.Response.Status}");
+      Console.WriteLine("Response Content:");
+      Console.WriteLine(request.Response.Content);
+      Console.WriteLine("--------------------------------------------------------------------------------");
+      Console.WriteLine(" ");
+  }
+
+  Console.Read();
+}
+
+```
+### JRequest JSON schema description
+
 ### Using values from other request response
