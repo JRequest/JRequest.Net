@@ -64,7 +64,7 @@ PM> Install-Package JRequest.NET -Version 1.2.0
 
 ### Usage
 #### Example 1
-In this example we are using [JSONPlaceholder](https://jsonplaceholder.typicode.com), a simple fake REST API for testing and prototyping. The JRequest JSON object, "Dummy", has two requests pointing to different resources. The first request sends a GET request to posts with ID #1. And the second request again sends a GET request to post ID #1 comments and configured to convert the response data to xml. The first request uses the bare minimum requirements to call an API from JRequest.Net.
+In this example we are using [JSONPlaceholder](https://jsonplaceholder.typicode.com), a simple fake REST API for testing and prototyping. The JRequest JSON object, named "Dummy", has two requests pointing to different resources. The first request sends a GET request to https://jsonplaceholder.typicode.com/posts/1. And the second request again sends a GET request to https://jsonplaceholder.typicode.com/posts/1/comments and configured to convert the response data to xml. The first request uses the bare minimum requirements to call an API from JRequest.Net.
 
 ```
 using System;
