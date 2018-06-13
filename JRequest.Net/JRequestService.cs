@@ -16,17 +16,17 @@ namespace JRequest.Net
             Json = json;
         }
         
-        public JRequest Run()
+        public Jrequest Run()
         {
             Build(Json);
             return JRequestEngine.Run();
         }
-        public JRequest Run(string json)
+        public Jrequest Run(string json)
         {
             Build(json);
             return JRequestEngine.Run();
         }
-        protected JRequest Build(string json)
+        protected Jrequest Build(string json)
         {
             return JRequestEngine.Build(json);
         }
