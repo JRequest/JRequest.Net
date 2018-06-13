@@ -6,11 +6,6 @@
         https,
         ftp
     }
-    public enum RequestType
-    {
-        Output,
-        Input
-    }
 
     enum HttpMethod
     {
@@ -32,7 +27,7 @@
 
     public enum OutputType
     {
-        joson,
+        json,
         xml
     }
 }

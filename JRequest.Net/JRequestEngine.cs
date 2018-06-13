@@ -23,7 +23,6 @@ namespace JRequest.Net
 
                 jRequestContext = Validator.ValidateJson(json);
                 Validator.ValidateJRequest(jRequestContext);
-                jRequestContext.Requests = StackRequests(jRequestContext).ToList();
             }
             catch (Exception ex)
             {
@@ -41,34 +40,37 @@ namespace JRequest.Net
 
                 Response response = null;
 
-                if (Utility.StringEquals(jRequestContext.Protocol, Protocol.http) || Utility.StringEquals(jRequestContext.Protocol, Protocol.https))
-                {
-                    jRequestContext.Requests.ForEach(request =>
-                    {
-                        if (Utility.HasValue(request.Authorization))
+                jRequestContext.Requests
+                        .OrderBy(o => o.Ordinal)
+                        .ToList()
+                        .ForEach(request =>
                         {
-                            Authorization.AddAuthorizationHeader(request);
-                        }
-
-                        ParseRequest(request);
-                        response = SendHttpRequest(request);
-
-                        if (Utility.HasValue(response))
-                        {
-
-                            request.Response = response;//add the response into the request
-
-                            if (Utility.StringEquals(request.RequestType, RequestType.Input))
+                            if (Utility.HasValue(request.Authorization))
                             {
-                                Dictionary<string, Response> responseToStore = new Dictionary<string, Response>();
-                                responseToStore.Add(request.Key, response);
-                                Storage.Store(responseToStore);
+                                Authorization.AddAuthorizationHeader(request);
                             }
-                            else
+
+                            ParseRequest(request);
+
+                            if (Utility.StringEquals(jRequestContext.Protocol, Protocol.http) || Utility.StringEquals(jRequestContext.Protocol, Protocol.https))
+                                response = SendHttpRequest(request);
+
+                            if (Utility.StringEquals(jRequestContext.Protocol, Protocol.ftp))
+                                response = SendFtpRequest(request);
+
+                            if (Utility.HasValue(response))
                             {
+
+                                request.Response = response;//add the response into the request
+
+                                Storage.Store(new Dictionary<string, Response>
+                                {
+                                    { request.Key, response }
+                                });
+
                                 if (Utility.HasValue(request?.Configuration?.Output))
                                 {
-                                    if (Utility.StringEquals(request.Configuration.Output.Type, OutputType.joson))
+                                    if (Utility.StringEquals(request.Configuration.Output.Type, OutputType.json))
                                     {
                                         Output.ToJson(request.Response);
                                     }
@@ -78,43 +80,7 @@ namespace JRequest.Net
                                     }
                                 }
                             }
-                        }
-                    });
-                }
-                else if (Utility.StringEquals(jRequestContext.Protocol, Protocol.ftp))
-                {
-                    jRequestContext.Requests.ForEach(request =>
-                    {
-                        ParseRequest(request);
-
-                        response = SendFtpRequest(request);
-
-                        if (Utility.HasValue(response))
-                        {
-                            request.Response = response;
-                            Dictionary<string, Response> jResponseDictionary = new Dictionary<string, Response>();
-                            jResponseDictionary.Add(jRequestContext.Name, response);
-                            if (Utility.StringEquals(request.RequestType, RequestType.Input))
-                            {
-                                Storage.Store(jResponseDictionary);
-                            }
-                            else
-                            {
-                                if (Utility.HasValue(request?.Configuration?.Output))
-                                {
-                                    if (Utility.StringEquals(request.Configuration.Output?.Type, OutputType.joson))
-                                    {
-                                        Output.ToJson(request.Response);
-                                    }
-                                    else if (Utility.StringEquals(request.Configuration.Output?.Type, OutputType.xml))
-                                    {
-                                        Output.ToXml(request.Response);
-                                    }
-                                }
-                            }
-                        }
-                    });
-                }
+                        });
             }
             catch (Exception ex)
             {
@@ -193,36 +159,6 @@ namespace JRequest.Net
                     throw new JRequestException(ex.Message, ex.InnerException);
                 }
                 throw ex;
-            }
-        }
-
-        private static Stack<Request> StackRequests(JRequestContext jRequest)
-        {
-            Stack<Request> requestStack = new Stack<Request>();
-            try
-            {
-                (jRequest.Requests
-                    .Where(r => Utility.StringEquals(r.RequestType, RequestType.Output))
-                    .ToList()).ForEach(q =>
-                    {
-                        requestStack.Push(q);
-                    });
-
-
-                (jRequest.Requests
-                    .Where(r => Utility.StringEquals(r.RequestType, RequestType.Input))
-                    .OrderByDescending(r => r.Ordinal)
-                    .ToList()).ForEach(q =>
-                    {
-                        requestStack.Push(q);
-                    });
-
-                return requestStack;
-            }
-            catch (Exception ex)
-            {
-
-                throw new JRequestException(ex.Message, ex.InnerException);
             }
         }
 
