@@ -12,9 +12,9 @@ namespace JRequest.Net
 {
     internal static class JRequestEngine
     {
-        internal static JRequestContext jRequestContext = null;
+        internal static JRequestService jRequestContext = null;
 
-        internal static JRequestContext Build(string json)
+        internal static JRequestService Build(string json)
         {
             try
             {
@@ -31,7 +31,7 @@ namespace JRequest.Net
             return jRequestContext;
         }
 
-        internal static JRequestContext Run()
+        internal static JRequestService Run()
         {
             try
             {
@@ -322,7 +322,7 @@ namespace JRequest.Net
             return response;
         }
 
-        private static Request GetRequest(JRequestContext jRequest, string requestKey)
+        private static Request GetRequest(JRequestService jRequest, string requestKey)
         {
             Request request = null;
 

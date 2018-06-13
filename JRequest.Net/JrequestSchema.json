@@ -1,0 +1,41 @@
+﻿{
+  "description": "JRequest.Net",
+  "type": "object",
+  "properties": {
+    "protocol": { "type": "string" },
+    "name": { "type": "string" },
+    "ordinal": { "type": "string" },
+    "requests": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          {
+            "key": { "type": "string" },
+            "url": { "type": "string" },
+            "method": { "type": "string" },
+            "contenttype": { "type": "string" },
+            "parameters": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "headers": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "configuration": {
+              "type": "object",
+              "properties": {
+                "output": {
+                  "type": "object",
+                  "properties": {
+                    "type": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

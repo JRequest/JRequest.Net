@@ -2,16 +2,16 @@
 
 namespace JRequest.Net
 {
-    public class JRequestContext
+    public class JRequestService
     {
 
         public string Json { get; set; }
-        public JRequestContext()
+        public JRequestService()
         {
 
         }
 
-        public JRequestContext(string json)
+        public JRequestService(string json)
         {
             Json = json;
         }
@@ -20,17 +20,19 @@ namespace JRequest.Net
         public List<Request> Requests { get; set; }
         public Configuration Configuration { get; set; }
 
-        public JRequestContext Build()
+        public JRequestService Run()
         {
-            return JRequestEngine.Build(Json);
+            Build(Json);
+            return JRequestEngine.Run();
         }
-        public JRequestContext Build(string json)
+        public JRequestService Run(string json)
+        {
+            Build(json);
+            return JRequestEngine.Run();
+        }
+        protected JRequestService Build(string json)
         {
             return JRequestEngine.Build(json);
-        }
-        public JRequestContext Run()
-        {
-            return JRequestEngine.Run();
         }
     }
 }

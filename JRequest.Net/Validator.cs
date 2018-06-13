@@ -10,12 +10,12 @@ namespace JRequest.Net
     internal class Validator
     {
 
-        internal static JRequestContext ValidateJson(string json)
+        internal static JRequestService ValidateJson(string json)
         {
             try
             {
                 JToken.Parse(json);//check if json string can be parsed
-                JRequestContext jRequest = JsonConvert.DeserializeObject<JRequestContext>(json);//check if json string can be deserialized into a dynamic object
+                JRequestService jRequest = JsonConvert.DeserializeObject<JRequestService>(json);//check if json string can be deserialized into a dynamic object
                 return jRequest;
             }
             catch (JsonReaderException ex)
@@ -28,7 +28,7 @@ namespace JRequest.Net
             }
         }
 
-        internal static bool ValidateJRequest(JRequestContext jRequest)
+        internal static bool ValidateJRequest(JRequestService jRequest)
         {
             try
             {
