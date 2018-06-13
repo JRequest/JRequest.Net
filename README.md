@@ -46,11 +46,7 @@ PM> Install-Package JRequest.NET -Version 1.2.0
   ]
 }
 ```
-#### Protocol
-##### Description
-The type of protocol that is used in the internet.
-#####
-Arguments
+
 | Property | Type | Mandatory |	Default Value |	Allowed Values | Description |
 | -------- | ---- | --------- | ------------- | ----------------- | -------- |
 | Protocol |	string |	true |	HTTP |	HTTP(s) ,FTP | The type of protocol that is used in the internet.
