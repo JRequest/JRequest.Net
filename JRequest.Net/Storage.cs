@@ -206,7 +206,7 @@ namespace JRequest.Net
             }
             catch (Exception ex)
             {
-                throw new JRequestException(ex.Message, ex.InnerException);
+                throw ex;
             }
         }
     }

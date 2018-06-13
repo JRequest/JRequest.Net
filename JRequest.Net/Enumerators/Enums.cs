@@ -30,4 +30,10 @@
         json,
         xml
     }
+
+    public enum RequestType
+    {
+        input,
+        output
+    }
 }

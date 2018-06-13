@@ -15,7 +15,7 @@ namespace JRequest.Net
         {
             using (var stream = new MemoryStream(Encoding.ASCII.GetBytes(response.Content)))
             {
-                response.Content = JsonConvert.SerializeObject(response.Content);
+                response.Content = JsonConvert.DeserializeObject(response.Content).ToString();
             }
         }
 
