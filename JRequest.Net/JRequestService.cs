@@ -15,22 +15,18 @@ namespace JRequest.Net
         {
             Json = json;
         }
-        public string Protocol { get; set; } = Enumerators.Protocol.http.ToString();
-        public string Name { get; set; } = "JRequest";
-        public List<Request> Requests { get; set; }
-        public Configuration Configuration { get; set; }
-
-        public JRequestService Run()
+        
+        public JRequest Run()
         {
             Build(Json);
             return JRequestEngine.Run();
         }
-        public JRequestService Run(string json)
+        public JRequest Run(string json)
         {
             Build(json);
             return JRequestEngine.Run();
         }
-        protected JRequestService Build(string json)
+        protected JRequest Build(string json)
         {
             return JRequestEngine.Build(json);
         }

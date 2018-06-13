@@ -12,35 +12,35 @@ namespace JRequest.Net
 {
     internal static class JRequestEngine
     {
-        internal static JRequestService jRequestContext = null;
+        internal static JRequest jRequest = null;
 
-        internal static JRequestService Build(string json)
+        internal static JRequest Build(string json)
         {
             try
             {
                 if (!Utility.HasValue(json))
                     throw new JRequestException("The JSON string is empty.");
 
-                jRequestContext = Validator.ValidateJson(json);
-                Validator.ValidateJRequest(jRequestContext);
+                jRequest = Validator.ValidateJson(json);
+                Validator.ValidateJRequest(jRequest);
             }
             catch (Exception ex)
             {
                 throw new JRequestException(ex.Message, ex.InnerException);
             }
-            return jRequestContext;
+            return jRequest;
         }
 
-        internal static JRequestService Run()
+        internal static JRequest Run()
         {
             try
             {
-                if (jRequestContext == null)
+                if (jRequest == null)
                     throw new JRequestException("JRequest object is not initialized.");
 
                 Response response = null;
 
-                jRequestContext.Requests
+                jRequest.Requests
                         .OrderBy(o => o.Ordinal)
                         .ToList()
                         .ForEach(request =>
@@ -52,10 +52,10 @@ namespace JRequest.Net
 
                             ParseRequest(request);
 
-                            if (Utility.StringEquals(jRequestContext.Protocol, Protocol.http) || Utility.StringEquals(jRequestContext.Protocol, Protocol.https))
+                            if (Utility.StringEquals(jRequest.Protocol, Protocol.http) || Utility.StringEquals(jRequest.Protocol, Protocol.https))
                                 response = SendHttpRequest(request);
 
-                            if (Utility.StringEquals(jRequestContext.Protocol, Protocol.ftp))
+                            if (Utility.StringEquals(jRequest.Protocol, Protocol.ftp))
                                 response = SendFtpRequest(request);
 
                             if (Utility.HasValue(response))
@@ -88,7 +88,7 @@ namespace JRequest.Net
                 throw new JRequestException(ex.Message, ex.InnerException);
             }
 
-            return jRequestContext;
+            return jRequest;
         }
 
         private static Request ParseRequest(Request request)
@@ -322,7 +322,7 @@ namespace JRequest.Net
             return response;
         }
 
-        private static Request GetRequest(JRequestService jRequest, string requestKey)
+        private static Request GetRequest(JRequest jRequest, string requestKey)
         {
             Request request = null;
 
