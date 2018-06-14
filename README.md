@@ -4,7 +4,7 @@ JRequest.NET is a powerful library which allows applications to call web APIs us
 * Abstracts the complexity of calling web APIs from your .NET code.
 * Supports HTTP and FTP web requests.
 * Allows Request chaining (explained).
-* Converts xml response to json or json to xml.
+* Converts XML responses to JSON or JSON to XML.
 * Support .NET Standard 2.0
 
 ## Getting Started
@@ -12,7 +12,7 @@ JRequest.NET is a powerful library which allows applications to call web APIs us
 ### Installation
 You can clone JRequest.Net from GitHub or install it directly into your project from [NuGet](https://www.nuget.org/packages/JRequest.NET/ "Get the latest version from NuGet") package manager.
 ```
-PM> Install-Package JRequest.NET -Version 1.2.0
+PM> Install-Package JRequest.NET -Version x.x.x
 ```
 ### Running JRequest.Net
 #### JRequest JSON Schema
@@ -80,7 +80,7 @@ PM> Install-Package JRequest.NET -Version 1.2.0
 | `Headers` | array | false | null | any number of key value paired objects | Allows the request to send additional information to the server. Example: {"Authorization": "basic aGVsbG8gd29ybGQ="}
 | `Body` | string | false | null | any string | Used to send data to the server when request method is POST.
 | `Authorization` | object | false | null | authorization object | Used to send authentication credentials in the header of the request. There are two type of authorization that can be used in the Authorization object of JRequest. **Basic Authentication** transmits credentials as user ID/password pairs, encoded using base64. **Bearer Authentication(Token Authentication)** uses security tokens called bearer tokens to authenticate. **Note:** As the user ID and password are passed over the network as clear text (it is base64 encoded, but base64 is a reversible encoding), the basic authentication scheme is not secure. HTTPS/TLS should be used in conjunction with basic authentication. Without these additional security enhancements, basic authentication should not be used to protect sensitive or valuable information.
-| `Configuration` | object | false | null | configuration object | Used to add additional configuration |
+| `Configuration` | object | false | null | configuration object | It can be used to pass additional settings to the engine. |
 #### Example 1
 In this example we are using [JSONPlaceholder](https://jsonplaceholder.typicode.com), a simple fake REST API for testing and prototyping. The JRequest JSON object, named "Dummy", has two requests pointing to different resources. The first request sends a GET request to https://jsonplaceholder.typicode.com/posts/1. And the second request also sends a GET request to https://jsonplaceholder.typicode.com/posts/1/comments. The second request, however, is configured to convert the response data, which is originally returned in JSON format, to xml. The first request uses the bare minimum requirements to call an API from JRequest.Net whereas the second request defines more properties.
 
