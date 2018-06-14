@@ -100,7 +100,6 @@ static void Main(string[] args)
         'URL': 'https://jsonplaceholder.typicode.com/posts/1'
       },
       {
-        'RequestType': 'output',
         'Key': 'post1comments',
         'URL': 'https://jsonplaceholder.typicode.com/posts/1/comments',
         'Method': 'GET',
@@ -116,7 +115,7 @@ static void Main(string[] args)
     ]
   }"
 
-  var jRequest = new JRequestContext(json).Build().Run();
+  var jRequest = new JRequestService(json).Run();
 
   Console.WriteLine($"JRequest Name: {jRequest.Name}");
   foreach (var request in jRequest.Requests)
