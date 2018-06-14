@@ -113,7 +113,6 @@ static void Main(string[] args)
       Console.WriteLine($"Response Status: {request.Response.Status}");
       Console.WriteLine("Response Content:");
       Console.WriteLine(request.Response.Content);
-      Console.WriteLine("--------------------------------------------------------------------------------");
       Console.WriteLine(" ");
   }
 
