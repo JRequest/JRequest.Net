@@ -83,9 +83,80 @@ PM> Install-Package JRequest.NET -Version 1.4.1
 | `Authorization` | object | false | null | authorization object | Used to send authentication credentials in the header of the request. There are two type of authorization that can be used in the Authorization object of JRequest. **Basic Authentication** transmits credentials as user ID/password pairs, encoded using base64. **Bearer Authentication(Token Authentication)** uses security tokens called bearer tokens to authenticate. **Note:** As the user ID and password are passed over the network as clear text (it is base64 encoded, but base64 is a reversible encoding), the basic authentication scheme is not secure. HTTPS/TLS should be used in conjunction with basic authentication. Without these additional security enhancements, basic authentication should not be used to protect sensitive or valuable information.
 | `Configuration` | object | false | null | configuration object | It can be used to pass additional settings to the engine. |
 | `Output` | object | false | null | Output object | Provides properties for output settings. |
-| `OutputType` | string | false | API response's content type | JSON, XML | Used to specify the convert to type. Output conversion only works from JSON to XML or viceversa.
+| `OutputType` | string | false | The API response's content type | JSON, XML | Used to specify the convert to type. Output conversion only works from JSON to XML or viceversa.
 
-### JRequest
+#### JRequest Class
+```
+ public class Jrequest
+  {
+      public string Protocol { get; set; } = Enumerators.Protocol.http.ToString();
+      public string Name { get; set; } = "JRequest";
+      public List<Request> Requests { get; set; }
+      public Configuration Configuration { get; set; }
+  }
+```
+#### Request Class
+```
+ public class Request
+  {
+      public string Key { get; set; }
+      public string URL { get; set; }
+      public string Method { get; set; } = HttpMethod.GET.ToString();
+      public string ContentType { get; set; } = "application/json";
+      public List<Dictionary<string, string>> Parameters { get; set; }
+      public List<Dictionary<string, string>> Headers { get; set; }
+      public string Body { get; set; }
+      public string Client { get; set; }
+      public string FilePath { get; set; }
+      public string FileType { get; set; }
+      public int Ordinal { get; set; } = 0;
+      public Configuration Configuration { get; set; }
+      public Authorization Authorization { get; set; }
+      public Response Response { get; set; }
+  }
+```
+### Response Class
+```
+public class Response
+{
+    public string RequestKey { get; set; }
+    public Dictionary<string, string> Headers { get; set; }
+    public Dictionary<string, string> Cookies { get; set; }
+    public string ContentType { get; set; }
+    public long ContentLength { get; set; }
+    public string Content { get; set; }
+    public string Status { get; set; }
+    public static List<Dictionary<string, object>> RequestResources;
+}
+```
+### JRequestService Class
+```
+public class JRequestService
+{
+    public string Json { get; set; }
+    public JRequestService(){}
+
+    public JRequestService(string json)
+    {
+        Json = json;
+    }
+
+    public Jrequest Run()
+    {
+        Build(Json);
+        return JRequestEngine.Run();
+    }
+    public Jrequest Run(string json)
+    {
+        Build(json);
+        return JRequestEngine.Run();
+    }
+    protected Jrequest Build(string json)
+    {
+        return JRequestEngine.Build(json);
+    }
+}
+```
 #### Example 1
 In this example we are calling [JSONPlaceholder](https://jsonplaceholder.typicode.com) REST API from a console app using JRequest.  
 **Note** here we are using the JRequest with the bare minimum requirements.
