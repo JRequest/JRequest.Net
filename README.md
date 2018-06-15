@@ -81,9 +81,10 @@ PM> Install-Package JRequest.NET -Version 1.4.1
 | `Headers` | array | false | null | any number of key value paired objects | Allows the request to send additional information to the server. Example: {"Authorization": "basic aGVsbG8gd29ybGQ="}
 | `Body` | string | false | null | any string | Used to send data to the server when request method is POST.
 | `Authorization` | object | false | null | authorization object | Used to send authentication credentials in the header of the request. There are two type of authorization that can be used in the Authorization object of JRequest. **Basic Authentication** transmits credentials as user ID/password pairs, encoded using base64. **Bearer Authentication(Token Authentication)** uses security tokens called bearer tokens to authenticate. **Note:** As the user ID and password are passed over the network as clear text (it is base64 encoded, but base64 is a reversible encoding), the basic authentication scheme is not secure. HTTPS/TLS should be used in conjunction with basic authentication. Without these additional security enhancements, basic authentication should not be used to protect sensitive or valuable information.
+| `Ordinal` | number | false | 0 | Orders the 
 | `Configuration` | object | false | null | configuration object | It can be used to pass additional settings to the engine. |
 | `Output` | object | false | null | Output object | Provides properties for output settings. |
-| `OutputType` | string | false | The API response's content type | JSON, XML | Used to specify the convert to type. Output conversion only works from JSON to XML or viceversa.
+| `Type` | string | false | The API response's content type | JSON, XML | Used to specify the convert to type. Output conversion only works converting JSON file to XML or viceversa.
 
 #### Example 1
 In this example we are calling [JSONPlaceholder](https://jsonplaceholder.typicode.com) REST API from a console app using `JRequestService`. Here we are using a JRequest JSON with the bare minimum requirements to call a simple API.
