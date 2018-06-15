@@ -86,6 +86,18 @@ PM> Install-Package JRequest.NET -Version 1.4.1
 | `Output` | object | false | null | Output object | Provides properties for output settings. |
 | `Type` | string | false | The API response's content type | JSON, XML | Used to specify the convert to type. Output conversion only works converting JSON file to XML or viceversa.
 | `Ordinal` | number | false | 0 | any number | Determines the order of requests to be executed first. |
+---
+#### JRequest Class
+##### Syntax
+`public class Jrequest`
+##### Properties
+| Name | Description |
+|------|-------------|
+| Protocol | Gets or sets the protocol type |
+| Name | Gets or sets the name of the JRequest object |
+| Requests | Gets or sets 
+
+---
 #### Example 1
 In this example we are calling [JSONPlaceholder](https://jsonplaceholder.typicode.com) REST API from a console app using `JRequestService`. Here we are using a JRequest JSON with the bare minimum requirements to call a simple API.
 
