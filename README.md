@@ -90,7 +90,7 @@ PM> Install-Package JRequest.NET -Version 1.4.1
 | `Type` | string | false | The API response's content type | JSON, XML | Used to specify the convert to type. Output conversion only works converting JSON file to XML or viceversa.
 | `Ordinal` | number | false | 0 | any number | Determines the order of requests to be executed first. |
 ---
-#### Examples
+#### Examples 1
 In this example we are calling [JSONPlaceholder](https://jsonplaceholder.typicode.com) REST API from a console app by using `JRequestService`.
 
 ```
@@ -126,19 +126,11 @@ static void Main(string[] args)
   Console.Read();
 }
 
-// Output
-// JRequest Name: JsonPlaceholder
-// Request Key: post1
-// Response Status: OK
-// Response Content:
-// {
-//  "userId": 1,
-//  "id": 1,
-//  "title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-//  "body": "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum //           est autem sunt rem eveniet architecto"
-// }
-
 ```
+#### output
+![post1](https://user-images.githubusercontent.com/39979029/41504487-7d2be3c2-71be-11e8-9d76-c1b2bf0aa74d.png)
+
+---
 
 ### Request Chaining
 
