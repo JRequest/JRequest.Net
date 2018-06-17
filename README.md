@@ -95,7 +95,6 @@ Sending a **GET** request to [JSONPlaceholder](https://jsonplaceholder.typicode.
 
 ```
 using System;
-using System.IO;
 using JRequest.Net;
 
 static void Main(string[] args)
@@ -137,13 +136,12 @@ Sending a **POST** request to [RestTestTest](https://resttesttest.com/#) web API
 
 ```
 using System;
-using System.IO;
 using JRequest.Net;
 
 static void Main(string[] args)
 {
   //JRequest JSON string
-string json = @"{
+  string json = @"{
           'protocol': 'https',
           'name': 'Rest Test',
           'requests': [
@@ -176,13 +174,11 @@ string json = @"{
 ![post_test](https://user-images.githubusercontent.com/39979029/41504777-c925a5d4-71c7-11e8-8310-6c7198dd0c7d.png)
 
 ---
----
 #### Examples 3
 Output Example 1 JSON response to XML
 
 ```
 using System;
-using System.IO;
 using JRequest.Net;
 
 static void Main(string[] args)
@@ -224,10 +220,58 @@ static void Main(string[] args)
 ![jsontoxml](https://user-images.githubusercontent.com/39979029/41504873-807d989e-71c9-11e8-9ebb-5709bb1c86b5.png)
 
 ---
+---
+#### Examples 4
+Sending **FTP** request to [test.rebex.net](http://test.rebex.net/) server.
+
+```
+using System;
+using JRequest.Net;
+
+static void Main(string[] args)
+{
+  //JRequest JSON string
+ var json = @"
+        {
+          'protocol': 'ftp',
+          'name': 'Rebex FTP Test',
+          'requests': [
+            {
+              'key': 'readme',
+              'url': 'ftp://test.rebex.net',
+              'authorization': {
+                'username': 'demo',
+                'password': 'password'
+              },
+              'filepath': '/',
+              'filetype': 'txt'
+            }
+          ]
+        }";
+
+  var jRequest = new JRequestService(json).Run(); //returns a Jrequest object
+
+  Console.WriteLine($"Name: {jRequest.Name}");
+  foreach (var request in jRequest.Requests)
+  {
+      Console.WriteLine($"Request Key: {request.Key}");
+      Console.WriteLine($"Status: {request.Response.Status}");
+      Console.WriteLine("Response:");
+      Console.WriteLine(request.Response.Content);
+  }
+
+  Console.Read();
+}
+
+```
+#### output
+
+![post_test](https://user-images.githubusercontent.com/39979029/41504777-c925a5d4-71c7-11e8-8310-6c7198dd0c7d.png)
+---
 ### Request Chaining
 Request chaining is when one or more requests depend on another one or more requests. Suppose we need to send a request to a specific endpoint which requires an access token to authenticate the request. In order to get the access token we need to send another request to a different endpoint with our credentials. 
 
-#### Example 4
+#### Example 5
 In this example we are sending two different request to two different web APIs. The first API returns the current location where the request has been sent and the second API returns the current weather data for the location we pass to it.
 ```
 using System;
