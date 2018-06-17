@@ -129,6 +129,7 @@ static void Main(string[] args)
 ```
 #### output
 
+![post1](https://user-images.githubusercontent.com/39979029/41504578-62aadd5c-71c1-11e8-883a-fd234623ffe3.png)
 
 ---
 
