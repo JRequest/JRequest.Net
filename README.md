@@ -175,7 +175,7 @@ static void Main(string[] args)
 
 ---
 #### Examples 3
-Converting Example 1's response JSON into XML.
+**Converting** response content (JSON into XML).
 
 ```
 using System;
@@ -266,7 +266,7 @@ static void Main(string[] args)
 ```
 #### output
 
-![post_test](https://user-images.githubusercontent.com/39979029/41504777-c925a5d4-71c7-11e8-8310-6c7198dd0c7d.png)
+![ftptest](https://user-images.githubusercontent.com/39979029/41505478-47048410-71d8-11e8-9579-e27213aad2cc.png)
 ---
 ### Request Chaining
 Request chaining is when one or more requests depend on another one or more requests. Suppose we need to send a request to a specific endpoint which requires an access token to authenticate the request. In order to get the access token we need to send another request to a different endpoint with our credentials. 
