@@ -15,7 +15,7 @@ You can clone JRequest.Net from GitHub or install it directly into your project 
 ```
 PM> Install-Package JRequest.NET -Version 1.4.1
 ```
-#### JRequest JSON Schema
+#### A Complete JRequest JSON Schema
 ```
 {
   'description': 'JRequest.Net',
@@ -90,19 +90,8 @@ PM> Install-Package JRequest.NET -Version 1.4.1
 | `Type` | string | false | The API response's content type | JSON, XML | Used to specify the convert to type. Output conversion only works converting JSON file to XML or viceversa.
 | `Ordinal` | number | false | 0 | any number | Determines the order of requests to be executed first. |
 ---
-#### JRequest Class
-##### Syntax
-`public class Jrequest`
-##### Properties
-| Name | Description |
-|------|-------------|
-| Protocol | Gets or sets the protocol type |
-| Name | Gets or sets the name of the JRequest object |
-| Requests | Gets or sets 
-
----
-#### Example 1
-In this example we are calling [JSONPlaceholder](https://jsonplaceholder.typicode.com) REST API from a console app using `JRequestService`. Here we are using a JRequest JSON with the bare minimum requirements to call a simple API.
+#### Examples
+In this example we are calling [JSONPlaceholder](https://jsonplaceholder.typicode.com) REST API from a console app by using `JRequestService`.
 
 ```
 using System;
@@ -111,21 +100,19 @@ using JRequest.Net;
 
 static void Main(string[] args)
 {
-    //JRequest JSON string
-    string json = "@"{
-    'Protocol': 'https',
-    'Name': 'dummy request',
-    'Requests': [
-      {
-        'Key': 'post1',
-        'URL': 'https://jsonplaceholder.typicode.com/posts/1'
-      }
-    ]
-  }"
-  
-  //initializes a new JRequestService object, pass the JSON string to the constructor and call the Run() method to send the request
-  //Run() method returns a Jrequest object which contains the Response object
-  var jRequest = new JRequestService(json).Run();
+  //JRequest JSON string
+  string json = @"{
+                    'Protocol': 'https',
+                    'Name': 'JsonPlaceholder',
+                    'Requests': [
+                      {
+                          'Key': 'post1',
+                          'URL': 'https://jsonplaceholder.typicode.com/posts/1',
+                      }
+                    ]
+                }";
+
+  var jRequest = new JRequestService(json).Run(); //returns a Jrequest object
 
   Console.WriteLine($"Name: {jRequest.Name}");
   foreach (var request in jRequest.Requests)
@@ -134,11 +121,22 @@ static void Main(string[] args)
       Console.WriteLine($"Response Status: {request.Response.Status}");
       Console.WriteLine("Response Content:");
       Console.WriteLine(request.Response.Content);
-      Console.WriteLine(" ");
   }
 
   Console.Read();
 }
+
+// Output
+// JRequest Name: JsonPlaceholder
+// Request Key: post1
+// Response Status: OK
+// Response Content:
+// {
+//  "userId": 1,
+//  "id": 1,
+//  "title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+//  "body": "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum //           est autem sunt rem eveniet architecto"
+// }
 
 ```
 
