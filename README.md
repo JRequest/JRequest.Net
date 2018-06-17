@@ -118,8 +118,8 @@ static void Main(string[] args)
   foreach (var request in jRequest.Requests)
   {
       Console.WriteLine($"Request Key: {request.Key}");
-      Console.WriteLine($"Response Status: {request.Response.Status}");
-      Console.WriteLine("Response Content:");
+      Console.WriteLine($"Status: {request.Response.Status}");
+      Console.WriteLine("Response:");
       Console.WriteLine(request.Response.Content);
   }
 
@@ -128,7 +128,7 @@ static void Main(string[] args)
 
 ```
 #### output
-![post1](https://user-images.githubusercontent.com/39979029/41504487-7d2be3c2-71be-11e8-9d76-c1b2bf0aa74d.png)
+
 
 ---
 
