@@ -175,7 +175,7 @@ static void Main(string[] args)
 
 ---
 #### Examples 3
-Output Example 1 JSON response to XML
+Converting Example 1's response JSON into XML.
 
 ```
 using System;
@@ -237,7 +237,7 @@ static void Main(string[] args)
           'name': 'Rebex FTP Test',
           'requests': [
             {
-              'key': 'readme',
+              'key': 'readmeTxt',
               'url': 'ftp://test.rebex.net',
               'authorization': {
                 'username': 'demo',
