@@ -102,15 +102,15 @@ static void Main(string[] args)
 {
   //JRequest JSON string
   string json = @"{
-                    'protocol': 'https',
-                    'name': 'JsonPlaceholder',
-                    'requests': [
-                      {
-                          'key': 'get_test',
-                          'url': 'https://jsonplaceholder.typicode.com/posts/1',
-                      }
-                    ]
-                }";
+            'protocol': 'https',
+            'name': 'JsonPlaceholder',
+            'requests': [
+              {
+                  'key': 'get_test',
+                  'url': 'https://jsonplaceholder.typicode.com/posts/1',
+              }
+            ]
+        }";
 
   var jRequest = new JRequestService(json).Run(); //returns a Jrequest object
 
@@ -144,17 +144,17 @@ static void Main(string[] args)
 {
   //JRequest JSON string
 string json = @"{
-                    'protocol': 'https',
-                    'name': 'Rest Test',
-                    'requests': [
-                      {
-                          'key': 'post_test',
-                          'url': 'https://httpbin.org/post',
-                          'method' : 'POST',
-                          'body': '{\'JRequest.Net\':\'Rocks!\'}'
-                      }
-                    ]
-                }";
+          'protocol': 'https',
+          'name': 'Rest Test',
+          'requests': [
+            {
+                'key': 'post_test',
+                'url': 'https://httpbin.org/post',
+                'method' : 'POST',
+                'body': '{\'JRequest.Net\':\'Rocks!\'}'
+            }
+          ]
+      }";
 
   var jRequest = new JRequestService(json).Run(); //returns a Jrequest object
 
@@ -173,7 +173,55 @@ string json = @"{
 ```
 #### output
 
-![post1](https://user-images.githubusercontent.com/39979029/41504578-62aadd5c-71c1-11e8-883a-fd234623ffe3.png)
+![post_test](https://user-images.githubusercontent.com/39979029/41504777-c925a5d4-71c7-11e8-8310-6c7198dd0c7d.png)
+
+---
+---
+#### Examples 3
+**Converting** JSON response to XML
+
+```
+using System;
+using System.IO;
+using JRequest.Net;
+
+static void Main(string[] args)
+{
+  //JRequest JSON string
+  string json = @"{
+            'protocol': 'https',
+            'name': 'JsonPlaceholder',
+            'requests': [
+              {
+                  'key': 'convert_xml',
+                  'url': 'https://jsonplaceholder.typicode.com/posts/1',
+                  'configuration': {
+                    'output': {
+                        'type': 'xml'
+                        }
+                    },
+              }
+            ]
+        }";
+
+  var jRequest = new JRequestService(json).Run(); //returns a Jrequest object
+
+  Console.WriteLine($"Name: {jRequest.Name}");
+  foreach (var request in jRequest.Requests)
+  {
+      Console.WriteLine($"Request Key: {request.Key}");
+      Console.WriteLine($"Status: {request.Response.Status}");
+      Console.WriteLine("Response:");
+      Console.WriteLine(request.Response.Content);
+  }
+
+  Console.Read();
+}
+
+```
+#### output
+
+![post_test](https://user-images.githubusercontent.com/39979029/41504777-c925a5d4-71c7-11e8-8310-6c7198dd0c7d.png)
 
 ---
 ### Request Chaining
