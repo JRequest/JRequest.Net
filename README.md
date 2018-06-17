@@ -225,5 +225,58 @@ static void Main(string[] args)
 
 ---
 ### Request Chaining
+Request chaining is when one or more requests depend on another one or more requests. Suppose we need to send a request to a specific endpoint which requires an access token to authenticate the request. In order to get the access token we need to send another request to a different endpoint with our credentials. 
 
+#### Example 4
+In this example we are sending two different request to two different web APIs. The first API returns the current location where the request has been sent and the second API returns the current weather data for the location we pass to it.
+```
+using System;
+using System.IO;
+using JRequest.Net;
+
+static void Main(string[] args)
+{
+  //JRequest JSON string
+  var json = @"
+              { 
+                'protocol': 'http', 
+                'name': 'WeatherForecast', 
+                'requests': [
+                    {
+                        'key': 'OpenWeatherMapAPI',
+                        'url': 'http://api.openweathermap.org/data/2.5/weather',
+                        'parameters': [
+                            { 'q': '{{currentlocation.body.city}},{{currentlocation.body.countryCode}}' },
+                            { 'appid': 'de92ba40803f76968ec6c2d7668b377a' }
+                        ],
+                        'ordinal': 2
+                    },
+                    {
+                        'key': 'CurrentLocation',
+                        'url': 'http://ip-api.com/json',
+                        'ordinal': 1
+                    }
+                ] 
+              }";
+
+  var jRequest = new JRequestService(json).Run(); //returns a Jrequest object
+
+  Console.WriteLine($"JRequest Name: {jRequest.Name}\n");
+  foreach (var request in jRequest.Requests)
+  {
+      Console.WriteLine($"Request Key: {request.Key}");
+      Console.WriteLine($"Status: {request.Response.Status}");
+      Console.WriteLine("Response:");
+      Console.WriteLine($"{request.Response.Content}\n\n");
+  }
+
+  Console.Read();
+}
+
+```
+#### output
+
+![jsontoxml](https://user-images.githubusercontent.com/39979029/41504873-807d989e-71c9-11e8-9ebb-5709bb1c86b5.png)
+
+---
 ### Cookies
