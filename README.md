@@ -91,7 +91,7 @@ PM> Install-Package JRequest.NET -Version 1.4.1
 | `Ordinal` | number | false | 0 | any number | Determines the order of requests to be executed first. |
 ---
 #### Examples 1
-In this example we are calling [JSONPlaceholder](https://jsonplaceholder.typicode.com) REST API from a console app by using `JRequestService`.
+Sending a **GET** request to [JSONPlaceholder](https://jsonplaceholder.typicode.com) web API.
 
 ```
 using System;
@@ -102,12 +102,12 @@ static void Main(string[] args)
 {
   //JRequest JSON string
   string json = @"{
-                    'Protocol': 'https',
-                    'Name': 'JsonPlaceholder',
-                    'Requests': [
+                    'protocol': 'https',
+                    'name': 'JsonPlaceholder',
+                    'requests': [
                       {
-                          'Key': 'post1',
-                          'URL': 'https://jsonplaceholder.typicode.com/posts/1',
+                          'key': 'get_test',
+                          'url': 'https://jsonplaceholder.typicode.com/posts/1',
                       }
                     ]
                 }";
@@ -132,7 +132,50 @@ static void Main(string[] args)
 ![post1](https://user-images.githubusercontent.com/39979029/41504578-62aadd5c-71c1-11e8-883a-fd234623ffe3.png)
 
 ---
+#### Examples 2
+Sending a **POST** request to [RestTestTest](https://resttesttest.com/#) web API.
 
+```
+using System;
+using System.IO;
+using JRequest.Net;
+
+static void Main(string[] args)
+{
+  //JRequest JSON string
+string json = @"{
+                    'protocol': 'https',
+                    'name': 'Rest Test',
+                    'requests': [
+                      {
+                          'key': 'post_test',
+                          'url': 'https://httpbin.org/post',
+                          'method' : 'POST',
+                          'body': '{\'JRequest.Net\':\'Rocks!\'}'
+                      }
+                    ]
+                }";
+
+  var jRequest = new JRequestService(json).Run(); //returns a Jrequest object
+
+  Console.WriteLine($"Name: {jRequest.Name}");
+  foreach (var request in jRequest.Requests)
+  {
+      Console.WriteLine($"Request Key: {request.Key}");
+      Console.WriteLine($"Status: {request.Response.Status}");
+      Console.WriteLine("Response:");
+      Console.WriteLine(request.Response.Content);
+  }
+
+  Console.Read();
+}
+
+```
+#### output
+
+![post1](https://user-images.githubusercontent.com/39979029/41504578-62aadd5c-71c1-11e8-883a-fd234623ffe3.png)
+
+---
 ### Request Chaining
 
 ### Cookies
