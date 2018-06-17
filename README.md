@@ -178,7 +178,7 @@ string json = @"{
 ---
 ---
 #### Examples 3
-**Converting** JSON response to XML
+Output Example 1 JSON response to XML
 
 ```
 using System;
