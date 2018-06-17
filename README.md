@@ -5,8 +5,8 @@ JRequest.NET is a powerful library which allows applications to call web APIs us
 * Supports HTTP and FTP web requests.
 * Allows Request chaining (explained).
 * Converts XML responses to JSON or JSON to XML.
-* Very lightweight and simple to use.
-* Built in .NET Standard 2.0
+* Lightweight and simple to use.
+* can be referenced from all .NET implementations, such as .NET Framework, .NET Core and Xamarin.
 
 ## Getting Started
 
@@ -15,7 +15,6 @@ You can clone JRequest.Net from GitHub or install it directly into your project 
 ```
 PM> Install-Package JRequest.NET -Version 1.4.1
 ```
-### Running JRequest.Net
 #### JRequest JSON Schema
 ```
 {
@@ -28,7 +27,7 @@ PM> Install-Package JRequest.NET -Version 1.4.1
     'requests': {
         'type': 'array',
         'items': {
-            'allOf': [
+            'oneOf': [
                 {
                 'key': {'type': 'string'},
                 'url': {'type': 'string'},
@@ -51,6 +50,8 @@ PM> Install-Package JRequest.NET -Version 1.4.1
                         'password': {'type': 'string'}
                         }
                     },
+                'filepath': {'type': 'string'},
+                'filetype': {'type': 'string'},
                 'configuration': {
                     'type': 'object',
                     'properties': {
@@ -81,6 +82,7 @@ PM> Install-Package JRequest.NET -Version 1.4.1
 | `Headers` | array | false | null | any number of key value paired objects | Allows the request to send additional information to the server. Example: {"Authorization": "basic aGVsbG8gd29ybGQ="}
 | `Body` | string | false | null | any string | Used to send data to the server when request method is POST.
 | `Authorization` | object | false | null | authorization object | Used to send authentication credentials in the header of the request. There are two type of authorization that can be used in the Authorization object of JRequest. **Basic Authentication** transmits credentials as user ID/password pairs, encoded using base64. **Bearer Authentication(Token Authentication)** uses security tokens called bearer tokens to authenticate. **Note:** As the user ID and password are passed over the network as clear text (it is base64 encoded, but base64 is a reversible encoding), the basic authentication scheme is not secure. HTTPS/TLS should be used in conjunction with basic authentication. Without these additional security enhancements, basic authentication should not be used to protect sensitive or valuable information.
+| `filepath` | string | true (if protocol is FTP) | null | any valid file path | 
 | `Ordinal` | number | false | 0 | Orders the 
 | `Configuration` | object | false | null | configuration object | It can be used to pass additional settings to the engine. |
 | `Output` | object | false | null | Output object | Provides properties for output settings. |
