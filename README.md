@@ -269,9 +269,10 @@ static void Main(string[] args)
 ![ftptest](https://user-images.githubusercontent.com/39979029/41505478-47048410-71d8-11e8-9579-e27213aad2cc.png)
 ---
 ### Request Dependency
-Request dependency is when a request depends on another request to send a complete or valid request to a web API. Suppose we need to call [OpenWeatherMap](https://openweathermap.org/) web API from our code to find the current location's weather forecast. Based on the web API's specification, the URL that we need to send the request looks like this `api.openweathermap.org/data/2.5/weather?q={city name},{country code}`, where `{city name}` is the name of the current location's city and `{country code}` is a two letter country code. In order to find the inforamtion about the current location and replace the varibales `{city name}` and `{country code}`, we use another web API [IP Geolocation API](http://ip-api.com/docs/) and find the values we need from the response data.
+Request dependency is when a request depends on another request to send a complete or valid request to a web API. Suppose we need to call [OpenWeatherMap](https://openweathermap.org/) web API from our code to find the current location's weather forecast. Based on the web API's specification, the URL that we need to send the request looks like this `api.openweathermap.org/data/2.5/weather?q={city name},{country code}`, where `{city name}` is the name of the current location's city and `{country code}` is a two letter country code. In order to find the inforamtion about the current location and replace the varibales `{city name}` and `{country code}`, we use another web API [IP Geolocation API](http://ip-api.com/docs/) and find the values we need from the response data. In above scenario, we can say our weather forecast request depends on the request that returns the current location.
 #### Example 5
-In this example we are sending two different request to two different web APIs. The first API returns the current location where the request has been sent and the second API returns the current weather data for the location we pass to it.
+In this example we are sending two different request to two different API endpoints. The first API request returns the current weather forecast for the specified city whereas the second request returns the current location.  
+**Note** The order of execution (the first request to be called) is determined by the `ordinal` property. Therefore, request \"CurrentLocation\" will be the first one to be called.
 ```
 using System;
 using System.IO;
