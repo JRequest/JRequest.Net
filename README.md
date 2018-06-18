@@ -269,8 +269,7 @@ static void Main(string[] args)
 ![ftptest](https://user-images.githubusercontent.com/39979029/41505478-47048410-71d8-11e8-9579-e27213aad2cc.png)
 ---
 ### Request Dependency
-Request dependency is when a request depends on another request to send a complete or valid request to a server. Suppose we need to create an app which uses [OpenWeatherMap](https://openweathermap.org/) web API to find out the weather forecast for the current location. Based on the API specification, we need to send a request which looks like `api.openweathermap.org/data/2.5/weather?q={city name},{country code}` to get the current forecast. The app that we are building needs to find the current location and replace the `{city name}, {country code}` part from URL. Now let's use [IP Geolocation API](http://ip-api.com/docs/) web API to get the current location.
-
+Request dependency is when a request depends on another request to send a complete or valid request to a server. Suppose we need to create an app which uses [OpenWeatherMap](https://openweathermap.org/) web API to find out the weather forecast for the current location. Based on the API specification, the request that we send to get the current location's weather forecast should looks like this `api.openweathermap.org/data/2.5/weather?q={city name},{country code}` where `{city name}` is the name of the current location's city and `country code` is a code is the two letter country code. In order to automate our weather forecast app, let's use  [IP Geolocation API](http://ip-api.com/docs/) web API to find current location and replace the `{city name}, {country code}` part from URL.
 #### Example 5
 In this example we are sending two different request to two different web APIs. The first API returns the current location where the request has been sent and the second API returns the current weather data for the location we pass to it.
 ```
