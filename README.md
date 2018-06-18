@@ -323,4 +323,6 @@ static void Main(string[] args)
 ![weatherforecast](https://user-images.githubusercontent.com/39979029/41505123-a0d6aff8-71cf-11e8-8275-ef5962fc7468.png)
 
 ---
+
+### JRequest Variable Interpolation
 ### Cookies
