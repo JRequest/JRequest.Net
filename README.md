@@ -3,7 +3,7 @@ JRequest.NET is a powerful library which allows applications to call web APIs us
 ## Benefits and Features
 * Abstracts the complexity of calling web APIs from your .NET code.
 * Supports HTTP and FTP web requests.
-* Allows Request chaining (explained).
+* Allows Request dependency.
 * Converts XML responses to JSON or JSON to XML.
 * Lightweight and simple to use.
 * Can be referenced from all .NET implementations, such as .NET Framework, .NET Core and Xamarin.
@@ -87,7 +87,7 @@ PM> Install-Package JRequest.NET -Version 1.4.1
 | `Ordinal` | number | false | 0 | Orders the 
 | `Configuration` | object | false | null | configuration object | It can be used to pass additional settings to the engine. |
 | `Output` | object | false | null | Output object | Provides properties for output settings. |
-| `Type` | string | false | The API response's content type | JSON, XML | Used to specify the convert to type. Output conversion only works converting JSON file to XML or viceversa.
+| `Type` | string | false | The API response's content type | JSON, XML | Used to specify the type of file to convert the response data to. Output conversion only supports converting JSON file to XML or viceversa.
 | `Ordinal` | number | false | 0 | any number | Determines the order of requests to be executed first. |
 ---
 #### Examples 1
@@ -268,8 +268,8 @@ static void Main(string[] args)
 
 ![ftptest](https://user-images.githubusercontent.com/39979029/41505478-47048410-71d8-11e8-9579-e27213aad2cc.png)
 ---
-### Request Chaining
-Request chaining is when one or more requests depend on another one or more requests. Suppose we need to send a request to a specific endpoint which requires an access token to authenticate the request. In order to get the access token we need to send another request to a different endpoint with our credentials. 
+### Request Dependency
+Request dependency is when a request depends on another request to send a complete or valid data to a server. Suppose we need to send a request to a specific endpoint which requires an access token to authenticate the request. In order to get the access token we need to send another request to a different endpoint with our credentials. 
 
 #### Example 5
 In this example we are sending two different request to two different web APIs. The first API returns the current location where the request has been sent and the second API returns the current weather data for the location we pass to it.
