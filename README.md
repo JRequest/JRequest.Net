@@ -326,10 +326,10 @@ static void Main(string[] args)
 
 ### JRequest Variable Interpolation
 #### Syntax `{ReqestKey.Field.ValuePath}`
-`RequestKey`: Is the key of the request where the engine look for the value.   
-`Field`: Field can be the response body, headers or cookies.  
-`ValuePath`: Tells the engine where to find the value from the specified key.  
-Let's take one of the variable interpolation from the above example `{currentlocation.body.city}`. The first part tells the engine to start searching in the \"currentlocation\" request's response. The second part tells the engine  
+`RequestKey`: Tells the engine from which request's response should start searching for the value.   
+`Field`: Tells the engine in what part of the response object could the value be found. Field values should be one of the following \[boby | headers | cookies\].  
+`ValuePath`: Tells the engine the key where to fetch the value from.  
+Let's take a look at one of the variable interpolation from the above example `{currentlocation.body.city}`. The first part **\"currentlocation\"** is the request key where we want to find the value from the its response. The second part **\"body\"** tells the engine the specific field where the data resides. And the third part **\"city\"** is the key of the value that we want to replace the entire interpolation with.
 
 ---
 ### Cookies
