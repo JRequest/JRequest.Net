@@ -329,7 +329,7 @@ static void Main(string[] args)
 `RequestKey`: Tells the engine from which request's response should start searching for the value.   
 `Field`: Tells the engine in what part of the response object could the value be found. Field values should be one of the following \[boby | headers | cookies\].  
 `body` : response body part.  
-`headers` : response headers collection.
+`headers` : response headers collection.  
 `cookies` : response cookies.  
 
 `ValuePath`: Tells the engine the key where to fetch the value from.  
