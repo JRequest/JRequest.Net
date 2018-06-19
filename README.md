@@ -328,6 +328,10 @@ static void Main(string[] args)
 #### Syntax `{ReqestKey.Field.ValuePath}`
 `RequestKey`: Tells the engine from which request's response should start searching for the value.   
 `Field`: Tells the engine in what part of the response object could the value be found. Field values should be one of the following \[boby | headers | cookies\].  
+`body` : response body part.  
+`headers` : response headers collection.
+`cookies` : response cookies.  
+
 `ValuePath`: Tells the engine the key where to fetch the value from.  
 Let's take a look at one of the variable interpolation from the above example `{currentlocation.body.city}`. The first part **\"currentlocation\"** is the request key where we want to find the value from the its response. The second part **\"body\"** tells the engine the specific field where the data resides. And the third part **\"city\"** is the key of the value that we want to replace the entire interpolation with.
 
