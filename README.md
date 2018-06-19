@@ -325,10 +325,10 @@ static void Main(string[] args)
 ---
 
 ### JRequest Variable Interpolation
-#### Syntax {ReqestKey.Field.Key}
-`RequestKey:`  
-`Field:` field can be response body, headers or cookies.  
-`Key:` Tells the engine where to find the value from the specified field.  
+#### Syntax `{ReqestKey.Field.Path}`
+`RequestKey`: Is the key of the request where the engine look for the value.   
+`Field`: Field can be the response body, headers or cookies.  
+`Path`: Tells the engine where to find the value from the specified key.  
 
 ---
 ### Cookies
