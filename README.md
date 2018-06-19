@@ -325,15 +325,15 @@ static void Main(string[] args)
 ---
 
 ### JRequest Variable Interpolation
-#### Syntax `{ReqestKey.Field.ValuePath}`
-`RequestKey`: Tells the engine from which request's response should start searching for the value.   
-`Field`: Tells the engine in what part of the response object could the value be found. Field values should be one of the following \[boby | headers | cookies\].  
-`body` : response body part.  
-`headers` : response headers collection.  
-`cookies` : response cookies.  
+#### Syntax `{ReqestKey.Field.Key}`
+`RequestKey`: The request where the value can be found from its response.   
+`Field`: The specific location of the response object where the data resides. Field values can be one of the following \[boby | headers | cookies\].  
+`body` : the response body part.  
+`headers` : the response headers collection.  
+`cookies` : the response cookies.  
 
-`ValuePath`: Tells the engine the key where to fetch the value from.  
-Let's take a look at one of the variable interpolation from the above example `{currentlocation.body.city}`. The first part **\"currentlocation\"** is the request key where we want to find the value from the its response. The second part **\"body\"** tells the engine the specific field where the data resides. And the third part **\"city\"** is the key of the value that we want to replace the entire interpolation with.
+`RequestKey`: Directs the JRequest engine to look for the value in the specified request's response.  
+Let's take a look at one of the variable interpolation used from the above example `{currentlocation.body.city}`. The first part **\"currentlocation\"** is the request where we are looking for the key to find the value from its response data. The second part **\"body\"** tells the engine the specific field where the data resides. And the third part **\"city\"** is a key which is used to find the value from the response body. We can use variable interpolation inside the URL, headers, parameters and body of the request object. One of the best scenario where we like to use variable interpolation is in Authentication. Many web APIs now a days require an access token in the request header in order to athorize a request and return the response. One of the common way of getting an access token is by sending a separate request to 
 
 ---
 ### Cookies
