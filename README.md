@@ -22,7 +22,6 @@ PM> Install-Package JRequest.NET -Version 1.4.1
   'type': 'object',
   'properties':
    {
-    'protocol': {'type':'string'},
     'name': {'type':'string'},
     'requests': {
         'type': 'array',
@@ -71,7 +70,6 @@ PM> Install-Package JRequest.NET -Version 1.4.1
 
 | Property | Value Type | Mandatory |	Default Value |	Allowed Values | Description |
 | -------- | ---- | --------- | ------------- | ----------------- | -------- |
-| `Protocol` |	string |	true |	HTTP |	HTTP(s) ,FTP | The type of protocol that is used in the internet.
 | `Name` | string |	false | JRequest.Net | any string | The name of the root JRequest object.
 | `Requests` | array |	true |	Null | Can be any number of HTTP(S) or FTP request objects. | We can add any number of request objects in `Requests` array by assigning a unique key to each request.
 | `Key` | string | true | null | any string | Used to uniquely identify a request. Duplicate keys are not allowed.
@@ -101,7 +99,6 @@ static void Main(string[] args)
 {
   //JRequest JSON string
   string json = @"{
-            'protocol': 'https',
             'name': 'JsonPlaceholder',
             'requests': [
               {
@@ -142,7 +139,6 @@ static void Main(string[] args)
 {
   //JRequest JSON string
   string json = @"{
-          'protocol': 'https',
           'name': 'Rest Test',
           'requests': [
             {
@@ -185,7 +181,6 @@ static void Main(string[] args)
 {
   //JRequest JSON string
   string json = @"{
-            'protocol': 'https',
             'name': 'JsonPlaceholder',
             'requests': [
               {
@@ -233,7 +228,6 @@ static void Main(string[] args)
   //JRequest JSON string
  var json = @"
         {
-          'protocol': 'ftp',
           'name': 'Rebex FTP Test',
           'requests': [
             {
@@ -283,7 +277,6 @@ static void Main(string[] args)
   //JRequest JSON string
   var json = @"
               { 
-                'protocol': 'http', 
                 'name': 'WeatherForecast', 
                 'requests': [
                     {
