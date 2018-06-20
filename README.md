@@ -2,8 +2,8 @@
 JRequest.NET is a powerful library which allows applications to call web APIs using JSON.
 ## Benefits and Features
 * Abstracts the complexity of calling web APIs from your .NET code.
-* Supports HTTP and FTP web requests.
-* Allows Request dependency.
+* Supports HTTP(S) and FTP web requests.
+* Allows Request Dependency.
 * Converts XML responses to JSON or JSON to XML.
 * Lightweight and simple to use.
 * Can be referenced from all .NET implementations, such as .NET Framework, .NET Core and Xamarin.
