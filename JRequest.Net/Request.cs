@@ -5,6 +5,7 @@ namespace JRequest.Net
 {
     public class Request
     {
+        public string Protocol { get; set; }
         public string Key { get; set; }
         public string URL { get; set; }
         public string Method { get; set; } = HttpMethod.GET.ToString();

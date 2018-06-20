@@ -2,7 +2,6 @@
   "description": "JRequest.Net",
   "type": "object",
   "properties": {
-    "protocol": { "type": "string" },
     "name": { "type": "string" },
     "ordinal": { "type": "string" },
     "requests": {

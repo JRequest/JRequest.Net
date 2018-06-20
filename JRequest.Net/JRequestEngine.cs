@@ -52,10 +52,10 @@ namespace JRequest.Net
 
                             ParseRequest(request);
 
-                            if (Utility.StringEquals(jRequest.Protocol, Protocol.http) || Utility.StringEquals(jRequest.Protocol, Protocol.https))
+                            if (Utility.StringEquals(request.Protocol, Protocol.http) || Utility.StringEquals(request.Protocol, Protocol.https))
                                 response = SendHttpRequest(request);
 
-                            if (Utility.StringEquals(jRequest.Protocol, Protocol.ftp))
+                            if (Utility.StringEquals(request.Protocol, Protocol.ftp))
                                 response = SendFtpRequest(request);
 
                             if (Utility.HasValue(response))

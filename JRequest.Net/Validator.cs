@@ -15,12 +15,13 @@ namespace JRequest.Net
             try
             {
                 JToken.Parse(json);//check if json string can be parsed
-                Jrequest jRequest = JsonConvert.DeserializeObject<Jrequest>(json);//check if json string can be deserialized into a dynamic object
+                Jrequest jRequest = JsonConvert.DeserializeObject<Jrequest>(json);
+
                 return jRequest;
             }
             catch (JsonReaderException ex)
             {
-                throw new JRequestException(ex.Message, ex.InnerException);
+                throw ex;
             }
             catch (Exception ex) //some other exception
             {
@@ -44,23 +45,26 @@ namespace JRequest.Net
                 if (!(jRequest.Requests.Select(r => r.Key).Distinct().Count() == jRequest.Requests.Select(r => r.Key).Count()))
                     throw new JRequestException("Some of the requests contain duplicate key.");
 
-                if(!Utility.StringEquals(jRequest.Protocol,Protocol.http) && !Utility.StringEquals(jRequest.Protocol, Protocol.https) && !Utility.StringEquals(jRequest.Protocol, Protocol.ftp))
-                    throw new JRequestException("Unsupported protocol.");
 
-                if (Utility.StringEquals(jRequest.Protocol, Protocol.http) || Utility.StringEquals(jRequest.Protocol, Protocol.https))
+                jRequest.Requests.ForEach(request =>
                 {
-                    jRequest.Requests.ForEach(request =>
-                    {
+                    if (!Utility.HasValue(request.URL))
+                        throw new JRequestException("Request URL is required.");
+
+                    if (!(Uri.TryCreate(request.URL, UriKind.Absolute, out Uri uriResult)
+                         && (uriResult.Scheme == Uri.UriSchemeHttp ||
+                         uriResult.Scheme == Uri.UriSchemeHttps ||
+                         uriResult.Scheme == Uri.UriSchemeFtp)))
+                        throw new JRequestException("Invalid URL string format found.");
+
+                    var protocol = request.URL?.Split(':')[0];
+                    request.Protocol = protocol;
+
+                    if (Utility.StringEquals(protocol, Protocol.http) || Utility.StringEquals(protocol, Protocol.https))
                         ValidateHttpRequest(request);
-                    });
-                }
-                else
-                {
-                    jRequest.Requests.ForEach(request =>
-                    {
+                    else
                         ValidateFtpRequest(request);
-                    });
-                }
+                });
 
                 return true;
             }
@@ -75,9 +79,6 @@ namespace JRequest.Net
         {
             try
             {
-                if (!Utility.HasValue(request.URL))
-                    throw new JRequestException("Request URL is required.");
-
                 if (!Utility.HasValue(request.Key))
                     throw new JRequestException("Request Key is required.");
 
