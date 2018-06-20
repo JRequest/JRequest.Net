@@ -8,7 +8,7 @@
     <Description>JRequest.NET is a powerful library which allows applications to call web APIs using JSON.</Description>
     <Copyright>Michael Jimma</Copyright>
     <PackageLicenseUrl>https://github.com/JRequest/JRequest.Net/blob/master/LICENSE</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/JRequest/JRequest.Net/wiki</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/JRequest/JRequest.Net</PackageProjectUrl>
     <RepositoryUrl>https://github.com/JRequest/JRequest.Net</RepositoryUrl>
     <PackageTags>Web API, JSON Request,HTTP,FTP,JSON,</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
