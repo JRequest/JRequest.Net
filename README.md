@@ -324,5 +324,3 @@ static void Main(string[] args)
 `Key`: The key where the value is to be returned.  
 Let's take a look at one of the variable interpolation used from the above example `{currentlocation.body.city}`. The first part **\"currentlocation\"** is the key of the request where we are looking for the value from its response data. The second part **\"body\"** tells the engine to search in the response body for the specified key. And the third part **\"city\"** is the key where the value is to be returned. We can use variable interpolation inside the URL, headers, parameters and body of the request object. One of the best scenario where we like to use variable interpolation is in Request Authorization. Many web APIs require an access token in the request's Authorization header in order to access resources. One of the common way of getting an access token is by sending a request to an authentication API with user credentials and once authorizaed, the API returns a response with the access token. Once we get the access token from the first request, now we can send the second request by adding the aceess token in the headers using variable interpolation.
 
----
-### Cookies
