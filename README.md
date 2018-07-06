@@ -89,7 +89,7 @@ PM> Install-Package JRequest.NET -Version 1.4.1
 | `Ordinal` | number | false | 0 | any number | Determines the order of requests to be executed first. |
 ---
 #### Examples 1
-Sending a simple **GET** request to [JSONPlaceholder](https://jsonplaceholder.typicode.com) web API.
+Sending a simple **GET** request to [JSONPlaceholder](https://jsonplaceholder.typicode.com) web API using JSON.
 
 ```
 using System;
@@ -122,6 +122,23 @@ static void Main(string[] args)
   Console.Read();
 }
 
+```
+Alternatively we can pass a Jrequest object into Run() method:
+```
+var jrequest = new Jrequest
+{
+    Name = "test",
+    Requests = new List<Request>()
+    {
+        new Request
+        {
+            Key="get_test",
+            URL="https://jsonplaceholder.typicode.com/posts/1"
+        }
+    }
+};
+
+ var jRequest = new JRequestService().Run(jrequest); //returns a Jrequest object
 ```
 #### output
 
