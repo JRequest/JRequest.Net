@@ -89,7 +89,7 @@ PM> Install-Package JRequest.NET -Version 1.4.1
 | `Ordinal` | number | false | 0 | any number | Determines the order of requests to be executed first. |
 ---
 #### Examples 1
-Sending a simple **GET** request to [JSONPlaceholder](https://jsonplaceholder.typicode.com) web API.
+Sending a simple **GET** request to [JSONPlaceholder](https://jsonplaceholder.typicode.com) web API using JSON.
 
 ```
 using System;
@@ -122,6 +122,23 @@ static void Main(string[] args)
   Console.Read();
 }
 
+```
+Alternatively we can pass a Jrequest object into Run() method:
+```
+var jrequest = new Jrequest
+{
+    Name = "test",
+    Requests = new List<Request>()
+    {
+        new Request
+        {
+            Key="get_test",
+            URL="https://jsonplaceholder.typicode.com/posts/1"
+        }
+    }
+};
+
+ var jRequest = new JRequestService().Run(jrequest); //returns a Jrequest object
 ```
 #### output
 
@@ -265,8 +282,8 @@ static void Main(string[] args)
 ### Request Dependency
 Request dependency is when a request depends on another request to send a complete or valid request to a web API. Suppose we need to call [OpenWeatherMap](https://openweathermap.org/) web API from our code to find the current location's weather forecast. Based on the web API's specification, the URL that we need to send the request looks like this `api.openweathermap.org/data/2.5/weather?q={city name},{country code}`, where `{city name}` is the name of the current location's city and `{country code}` is a two letter country code. In order to find the inforamtion about the current location and replace the varibales `{city name}` and `{country code}`, we use another web API [IP Geolocation API](http://ip-api.com/docs/) and find the values we need from the response data. In above scenario, we can say our weather forecast request depends on the request that returns the current location.
 #### Example 5
-In this example we are sending two different request to two different API endpoints. The first API request returns the current weather forecast for the specified city whereas the second request returns the current location.  
-**Note** The order of execution (the first request to be called) is determined by the `ordinal` property. Therefore, request \"CurrentLocation\" will be the first one to be called.
+In this example we are sending two different requests to different endpoints. The first request returns information about the current location and the second request returns the current weather forecast for the specified location.  
+**Note** The order of execution or which request is to be called first, is determined by the `ordinal` property. Therefore, request \"CurrentLocation\" will be the first one to be called.
 ```
 using System;
 using System.IO;
@@ -280,6 +297,11 @@ static void Main(string[] args)
                 'name': 'WeatherForecast', 
                 'requests': [
                     {
+                        'key': 'CurrentLocation',
+                        'url': 'http://ip-api.com/json',
+                        'ordinal': 1
+                    },
+                    {
                         'key': 'OpenWeatherMapAPI',
                         'url': 'http://api.openweathermap.org/data/2.5/weather',
                         'parameters': [
@@ -287,11 +309,6 @@ static void Main(string[] args)
                             { 'appid': 'de92ba40803f76968ec6c2d7668b377a' }
                         ],
                         'ordinal': 2
-                    },
-                    {
-                        'key': 'CurrentLocation',
-                        'url': 'http://ip-api.com/json',
-                        'ordinal': 1
                     }
                 ] 
               }";
@@ -319,14 +336,8 @@ static void Main(string[] args)
 
 ### JRequest Variable Interpolation
 #### Syntax `{ReqestKey.Field.Key}`
-`RequestKey`: The request where the value can be found from its response.   
-`Field`: The specific location of the response object where the data resides. Field values can be one of the following \[boby | headers | cookies\].  
-`body` : the response body part.  
-`headers` : the response headers collection.  
-`cookies` : the response cookies.  
+`RequestKey`: The request where the engine looks for value can be found from its response.   
+`Field`: The specific location of the response object where the data resides. `Field` can be response boby, headers or cookies imbedded in the headers.   
+`Key`: The key where the value is to be returned.  
+Let's take a look at one of the variable interpolation used from the above example `{currentlocation.body.city}`. The first part **\"currentlocation\"** is the key of the request where we are looking for the value from its response data. The second part **\"body\"** tells the engine to search in the response body for the specified key. And the third part **\"city\"** is the key where the value is to be returned. We can use variable interpolation inside the URL, headers, parameters and body of the request object. One of the best scenario where we like to use variable interpolation is in Request Authorization. Many web APIs require an access token in the request's Authorization header in order to access resources. One of the common way of getting an access token is by sending a request to an authentication API with user credentials and once authorizaed, the API returns a response with the access token. Once we get the access token from the first request, now we can send the second request by adding the aceess token in the headers using variable interpolation.
 
-`RequestKey`: Directs the JRequest engine to look for the value in the specified request's response.  
-Let's take a look at one of the variable interpolation used from the above example `{currentlocation.body.city}`. The first part **\"currentlocation\"** is the request where we are looking for the key to find the value from its response data. The second part **\"body\"** tells the engine the specific field where the data resides. And the third part **\"city\"** is a key which is used to find the value from the response body. We can use variable interpolation inside the URL, headers, parameters and body of the request object. One of the best scenario where we like to use variable interpolation is in Request Authorization. Many web APIs require an access token in the request's Authorization header in order to access resources. One of the common way of getting an access token is by sending a request to an authentication API with user credentials and once authorizaed, the API returns a response with the access token.
-
----
-### Cookies
