@@ -6,6 +6,7 @@ namespace JRequest.Net
     {
 
         public string Json { get; set; }
+        public Jrequest Jrequest { get; set; } = null;
         public JRequestService()
         {
 
@@ -15,10 +16,22 @@ namespace JRequest.Net
         {
             Json = json;
         }
-        
+
+        public JRequestService(Jrequest jrequest)
+        {
+            Jrequest = jrequest;
+        }
+
         public Jrequest Run()
         {
-            Build(Json);
+            if (Jrequest == null)
+            {
+                Build(Json);
+            }
+            else
+            {
+                Build(Jrequest);
+            }
             return JRequestEngine.Run();
         }
         public Jrequest Run(string json)
@@ -26,9 +39,18 @@ namespace JRequest.Net
             Build(json);
             return JRequestEngine.Run();
         }
+        public Jrequest Run(Jrequest jRequest)
+        {
+            Build(jRequest);
+            return JRequestEngine.Run();
+        }
         protected Jrequest Build(string json)
         {
             return JRequestEngine.Build(json);
+        }
+        protected Jrequest Build(Jrequest jRequest)
+        {
+            return JRequestEngine.Build(jRequest);
         }
     }
 }

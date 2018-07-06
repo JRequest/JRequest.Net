@@ -31,6 +31,20 @@ namespace JRequest.Net
             return jRequest;
         }
 
+        internal static Jrequest Build(Jrequest jrequest)
+        {
+            try
+            {
+                jRequest = jrequest;
+                Validator.ValidateJRequest(jRequest);
+            }
+            catch (Exception ex)
+            {
+                throw new JRequestException(ex.Message, ex.InnerException);
+            }
+            return jRequest;
+        }
+
         internal static Jrequest Run()
         {
             try
