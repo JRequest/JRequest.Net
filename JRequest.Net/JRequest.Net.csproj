@@ -8,26 +8,20 @@
     <Description>JRequest.NET is a powerful library which allows applications to call web APIs using JSON.</Description>
     <Copyright>Michael Jimma</Copyright>
     <PackageLicenseUrl>https://github.com/JRequest/JRequest.Net/blob/master/LICENSE</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/JRequest/JRequest.Net/wiki</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/JRequest/JRequest.Net</PackageProjectUrl>
     <RepositoryUrl>https://github.com/JRequest/JRequest.Net</RepositoryUrl>
-    <PackageTags>Web API, JSON Request,HTTP,FTP,JSON,</PackageTags>
+    <PackageTags>Web API, JSON Request, HTTP, FTP, JSON,</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <AssemblyVersion>1.5.0.0</AssemblyVersion>
-    <FileVersion>1.5.0.0</FileVersion>
+    <AssemblyVersion>1.6.0.0</AssemblyVersion>
+    <FileVersion>1.6.0.0</FileVersion>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageReleaseNotes>Auto detect protocol implemented and removed protocol property from JRequest class.</PackageReleaseNotes>
+    <PackageReleaseNotes>Jrequest object can be used like the json object</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="System.Collections" Version="4.3.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="JrequestSchema.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
   <ItemGroup>
