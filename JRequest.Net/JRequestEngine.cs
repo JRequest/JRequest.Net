@@ -239,7 +239,7 @@ namespace JRequest.Net
                     });
                 }
 
-                if (request.Method == "POST")
+                if (request.Method.ToLower() == "post")
                 {
                     byte[] postDataBytes = encoding.GetBytes(request.Body);
                     httpWebRequest.ContentLength = postDataBytes.Length;
