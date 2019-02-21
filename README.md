@@ -51,7 +51,7 @@ PM> Install-Package JRequest.NET -Version 1.4.1
                     },
                 'filepath': {'type': 'string'},
                 'filetype': {'type': 'string'},
-                'configuration': {
+                'config': {
                     'type': 'object',
                     'properties': {
                         'output': {
@@ -83,7 +83,7 @@ PM> Install-Package JRequest.NET -Version 1.4.1
 | `FilePath` | string | true (if Protocol is FTP) | null | any valid file path | Specifies the location of a file in the FTP server. |
 | `FileType` | string | true (if Protocol is FTP) | null | any kind of File extension | Specifies the type of file extension. |
 | `Ordinal` | number | false | 0 | Orders the 
-| `Configuration` | object | false | null | configuration object | It can be used to pass additional settings to the engine. |
+| `Config` | object | false | null | configuration object | It can be used to pass additional settings to the engine. |
 | `Output` | object | false | null | Output object | Provides properties for output settings. |
 | `Type` | string | false | The API response's content type | JSON, XML | Used to specify the type of file to convert the response data to. Output conversion only supports converting JSON file to XML or viceversa.
 | `Ordinal` | number | false | 0 | any number | Determines the order of requests to be executed first. |
@@ -203,7 +203,7 @@ static void Main(string[] args)
               {
                   'key': 'convert_xml',
                   'url': 'https://jsonplaceholder.typicode.com/posts/1',
-                  'configuration': {
+                  'config': {
                     'output': {
                         'type': 'xml'
                         }
