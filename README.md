@@ -108,7 +108,7 @@ static void Main(string[] args)
             ]
         }";
 
-  var jRequest = JRequestService().Run(json); //returns a Jrequest object (to serialize the object to JSON, pass true in Run(json, true))
+  var jRequest = JRequestService().Run(json); //returns a Jrequest object (to serialize the return object into JSON, pass 'true' in Run(json, true))
 
   Console.WriteLine($"Name: {jRequest.Name}");
   foreach (var request in jRequest.Requests)
