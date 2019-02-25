@@ -115,8 +115,8 @@ namespace JRequest.Net
                     });
                 }
 
-                if (Utility.HasValue(request?.Configuration?.Output))
-                    ValidateOutput(request.Configuration.Output);
+                if (Utility.HasValue(request?.Config?.Output))
+                    ValidateOutput(request.Config.Output);
 
                 return true;
             }

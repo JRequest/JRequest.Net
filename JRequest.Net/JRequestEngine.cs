@@ -47,17 +47,17 @@ namespace JRequest.Net
 
         internal static Jrequest Run()
         {
-            try
-            {
-                if (jRequest == null)
-                    throw new JRequestException("JRequest object is not initialized.");
+            if (jRequest == null)
+                throw new JRequestException("JRequest object is not initialized.");
 
-                Response response = null;
+            Response response = null;
 
-                jRequest.Requests
-                        .OrderBy(o => o.Ordinal)
-                        .ToList()
-                        .ForEach(request =>
+            jRequest.Requests
+                    .OrderBy(o => o.Ordinal)
+                    .ToList()
+                    .ForEach(request =>
+                    {
+                        try
                         {
                             if (Utility.HasValue(request.Authorization))
                             {
@@ -72,35 +72,37 @@ namespace JRequest.Net
                             if (Utility.StringEquals(request.Protocol, Protocol.ftp))
                                 response = SendFtpRequest(request);
 
-                            if (Utility.HasValue(response))
+                            request.Response = response;//add the response into the request
+
+                            Storage.Store(new Dictionary<string, Response>
+                        {
+                                { request.Key, response }
+                        });
+
+                            if (Utility.HasValue(response) && !response.Status.Contains("error"))
                             {
-
-                                request.Response = response;//add the response into the request
-
-                                Storage.Store(new Dictionary<string, Response>
+                                if (Utility.HasValue(request?.Config?.Output))
                                 {
-                                    { request.Key, response }
-                                });
-
-                                if (Utility.HasValue(request?.Configuration?.Output))
-                                {
-                                    if (Utility.StringEquals(request.Configuration.Output.Type, OutputType.json))
+                                    if (Utility.StringEquals(request.Config.Output.Type, OutputType.json))
                                     {
                                         Output.ToJson(request.Response);
                                     }
-                                    else if (Utility.StringEquals(request.Configuration.Output.Type, OutputType.xml))
+                                    else if (Utility.StringEquals(request.Config.Output.Type, OutputType.xml))
                                     {
                                         Output.ToXml(request.Response);
                                     }
                                 }
                             }
-                        });
-            }
-            catch (Exception ex)
-            {
+                        }
+                        catch (Exception ex)
+                        {
 
-                throw new JRequestException(ex.Message, ex.InnerException);
-            }
+                            request.Response = new Response
+                            {
+                                Status = ex.Message
+                            };
+                        }
+                    });
 
             return jRequest;
         }
@@ -116,7 +118,7 @@ namespace JRequest.Net
                     urlTokens.ForEach(token =>
                     {
                         searchResults = Storage.Search(token);
-                        string value = Utility.Stringfy(searchResults, request.Configuration);
+                        string value = Utility.Stringfy(searchResults, request.Config);
                         request.URL = request.URL.Replace($"{{{{{token}}}}}", value);
                     });
                 }
@@ -129,7 +131,7 @@ namespace JRequest.Net
                         if (Utility.HasValue(token))
                         {
                             searchResults = Storage.Search(token);
-                            string value = Utility.Stringfy(searchResults, request.Configuration);
+                            string value = Utility.Stringfy(searchResults, request.Config);
                             parameter[param.Key] = value;
                         }
                     }
@@ -143,7 +145,7 @@ namespace JRequest.Net
                         if (Utility.HasValue(token))
                         {
                             searchResults = Storage.Search(token);
-                            string value = Utility.Stringfy(searchResults, request.Configuration);
+                            string value = Utility.Stringfy(searchResults, request.Config);
                             headers[header.Key] = value;
                         }
                     }
@@ -158,7 +160,7 @@ namespace JRequest.Net
                         bodyTokens.ForEach(token =>
                         {
                             searchResults = Storage.Search(token);
-                            string value = Utility.Stringfy(searchResults, request.Configuration);
+                            string value = Utility.Stringfy(searchResults, request.Config);
                             request.Body = request.Body.Replace($"{{{{{token}}}}}", value);
                         });
                     }
@@ -258,6 +260,7 @@ namespace JRequest.Net
                     response = new Response
                     {
                         Status = httpWebResponse.StatusDescription,
+                        StatusCode = httpWebResponse.StatusCode.ToString(),
                         ContentLength = httpWebResponse.ContentLength,
                         ContentType = httpWebResponse.ContentType,
                         Cookies = ParseCookies(httpWebResponse.Headers),
@@ -275,7 +278,10 @@ namespace JRequest.Net
             }
             catch (Exception ex)
             {
-                throw ex;
+                response = new Response
+                {
+                    Status = ex.Message
+                };
             }
 
             return response;
@@ -290,48 +296,44 @@ namespace JRequest.Net
                 var ftpFiles = ListDirectories(request);
                 foreach (var file in ftpFiles)
                 {
-                    try
+                    var ftpPath = $"{request.FilePath}{file}";
+                    FtpWebRequest ftpWebRequest = (FtpWebRequest)WebRequest.Create($"{request.URL}{ftpPath}");
+                    ftpWebRequest.Method = WebRequestMethods.Ftp.DownloadFile;
+
+                    ftpWebRequest.Credentials = new NetworkCredential(request.Authorization.Username, request.Authorization.Password);
+
+                    using (var ftpWebResponse = (FtpWebResponse)ftpWebRequest.GetResponse())
                     {
-                        var ftpPath = $"{request.FilePath}{file}";
-                        FtpWebRequest ftpWebRequest = (FtpWebRequest)WebRequest.Create($"{request.URL}{ftpPath}");
-                        ftpWebRequest.Method = WebRequestMethods.Ftp.DownloadFile;
+                        Stream responseStream = ftpWebResponse.GetResponseStream();
+                        StreamReader streamReader = new StreamReader(responseStream);
 
-                        ftpWebRequest.Credentials = new NetworkCredential(request.Authorization.Username, request.Authorization.Password);
-
-                        using (var ftpWebResponse = (FtpWebResponse)ftpWebRequest.GetResponse())
+                        response = new Response
                         {
-                            Stream responseStream = ftpWebResponse.GetResponseStream();
-                            StreamReader streamReader = new StreamReader(responseStream);
+                            Status = ftpWebResponse.StatusDescription,
+                            ContentLength = ftpWebResponse.ContentLength,
+                            Cookies = ParseCookies(ftpWebResponse.Headers),
+                            Headers = ParseHeaders(ftpWebResponse.Headers),
+                            RequestKey = request.Key
+                        };
 
-                            response = new Response
-                            {
-                                Status = ftpWebResponse.StatusDescription,
-                                ContentLength = ftpWebResponse.ContentLength,
-                                Cookies = ParseCookies(ftpWebResponse.Headers),
-                                Headers = ParseHeaders(ftpWebResponse.Headers),
-                                RequestKey = request.Key
-                            };
-
-                            using (streamReader)
-                            {
-                                var strResponse = streamReader.ReadToEnd();
-                                response.Content = HttpUtility.HtmlDecode(strResponse);
-                            }
-
-                            streamReader.Close();
-                            ftpWebResponse.Close();
+                        using (streamReader)
+                        {
+                            var strResponse = streamReader.ReadToEnd();
+                            response.Content = HttpUtility.HtmlDecode(strResponse);
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        throw ex;
+
+                        streamReader.Close();
+                        ftpWebResponse.Close();
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                response = new Response
+                {
+                    Status = ex.Message
+                };
             }
             return response;
         }

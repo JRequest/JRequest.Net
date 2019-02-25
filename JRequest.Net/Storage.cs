@@ -8,9 +8,7 @@ namespace JRequest.Net
 {
     internal class Storage
     {
-        private static List<Dictionary<string, Response>> globalStorage = new List<Dictionary<string, Response>>();
-
-        public static List<Dictionary<string, Response>> GlobalStorage { get => globalStorage; set => globalStorage = value; }
+        private static List<Dictionary<string, Response>> GlobalStorage { get; set; } = new List<Dictionary<string, Response>>();
 
         internal static void Store(Dictionary<string, Response> response)
         {
