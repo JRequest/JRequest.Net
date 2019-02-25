@@ -11,6 +11,7 @@ namespace JRequest.Net
         public long ContentLength { get; set; }
         public string Content { get; set; }
         public string Status { get; set; }
+        public string StatusCode { get; set; }
         public static List<Dictionary<string, object>> RequestResources;
     }
 }
