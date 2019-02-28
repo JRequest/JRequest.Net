@@ -6,6 +6,6 @@ namespace JRequest.Net
     {
         public string Name { get; set; } = "JRequest";
         public List<Request> Requests { get; set; }
-        public Configuration Configuration { get; set; }
+        public Configuration Config { get; set; }
     }
 }

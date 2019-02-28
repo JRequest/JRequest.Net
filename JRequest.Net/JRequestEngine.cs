@@ -75,9 +75,9 @@ namespace JRequest.Net
                             request.Response = response;//add the response into the request
 
                             Storage.Store(new Dictionary<string, Response>
-                        {
+                            {
                                 { request.Key, response }
-                        });
+                            });
 
                             if (Utility.HasValue(response) && !response.Status.Contains("error"))
                             {
@@ -241,7 +241,7 @@ namespace JRequest.Net
                     });
                 }
 
-                if (request.Method.ToLower() == "post")
+                if (request.Method.ToLower() == "post" || request.Method.ToLower() == "put")
                 {
                     byte[] postDataBytes = encoding.GetBytes(request.Body);
                     httpWebRequest.ContentLength = postDataBytes.Length;
@@ -251,7 +251,7 @@ namespace JRequest.Net
                         stream.Close();
                     }
                 }
-
+               
                 using (HttpWebResponse httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse())
                 {
                     Stream responseStream = httpWebResponse.GetResponseStream();
