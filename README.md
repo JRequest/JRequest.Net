@@ -13,7 +13,7 @@ JRequest.NET is a powerful library which allows applications to call web APIs us
 ### Installation
 You can clone JRequest.Net from GitHub or install it directly into your project from [NuGet](https://www.nuget.org/packages/JRequest.NET/ "Get the latest version from NuGet") package manager.
 ```
-PM> Install-Package JRequest.NET -Version 1.4.1
+PM> Install-Package JRequest.NET -Version 1.6.2
 ```
 #### A Complete JRequest JSON Schema
 ```
@@ -108,7 +108,7 @@ static void Main(string[] args)
             ]
         }";
 
-  var jRequest = new JRequestService(json).Run(); //returns a Jrequest object
+  var jRequest = JRequestService().Run(json); //returns a Jrequest object (to serialize the return object into JSON, pass 'true' in Run(json, true))
 
   Console.WriteLine($"Name: {jRequest.Name}");
   foreach (var request in jRequest.Requests)
