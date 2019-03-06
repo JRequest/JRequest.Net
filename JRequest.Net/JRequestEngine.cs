@@ -241,9 +241,9 @@ namespace JRequest.Net
                     });
                 }
 
-                if (request.Method.ToLower() == "post" || request.Method.ToLower() == "put")
+                if (request.Method.ToLower() == "post" || request.Method.ToLower() == "put" || request.Method.ToLower() == "delete")
                 {
-                    byte[] postDataBytes = encoding.GetBytes(request.Body);
+                    byte[] postDataBytes = encoding.GetBytes(request?.Body);
                     httpWebRequest.ContentLength = postDataBytes.Length;
                     using (var stream = httpWebRequest.GetRequestStream())
                     {
