@@ -188,6 +188,7 @@ namespace JRequest.Net
                 Encoding encode = Encoding.GetEncoding("utf-8");
                 ASCIIEncoding encoding = new ASCIIEncoding();
                 HttpWebRequest httpWebRequest;
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
 
                 var uriBuilder = new UriBuilder(request.URL);
 
@@ -241,7 +242,7 @@ namespace JRequest.Net
                     });
                 }
 
-                if (request.Method.ToLower() == "post" || request.Method.ToLower() == "put" || request.Method.ToLower() == "delete")
+                if (Utility.HasValue(request?.Body))
                 {
                     byte[] postDataBytes = encoding.GetBytes(request?.Body);
                     httpWebRequest.ContentLength = postDataBytes.Length;
@@ -290,7 +291,7 @@ namespace JRequest.Net
         private static Response SendFtpRequest(Request request)
         {
             Response response = null;
-
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             try
             {
                 var ftpFiles = ListDirectories(request);

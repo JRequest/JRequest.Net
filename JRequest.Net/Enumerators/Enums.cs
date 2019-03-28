@@ -10,7 +10,9 @@
     enum HttpMethod
     {
         GET,
-        POST
+        POST,
+        PUT,
+        DELETE
     }
     public enum AuthType
     {

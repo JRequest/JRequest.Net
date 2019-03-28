@@ -84,6 +84,8 @@ namespace JRequest.Net
 
                 if ((Utility.StringEquals(request.Method, HttpMethod.POST)) && (!Utility.HasValue(request.Body)))
                     throw new JRequestException("A POST request requires data in the body.");
+                if ((Utility.StringEquals(request.Method, HttpMethod.PUT)) && (!Utility.HasValue(request.Body)))
+                    throw new JRequestException("A PUT request requires data in the body.");
 
                 if (request.Parameters != null)
                 {
